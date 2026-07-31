@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept: Data Intelligence | Jake Diego</title>
+<meta name="description" content="Design concept: live data intelligence that updates while you watch. A visual exploration with illustrative data only.">
+<meta property="og:title" content="Concept: Data Intelligence | Jake Diego">
+<meta property="og:description" content="Design concept: live data intelligence that updates while you watch. A visual exploration with illustrative data only.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jakediego.com/concept-data-intelligence.html">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="futuristic.css">
+<style>
+  body.fx-body{--fx-accent-a:#22e0c8; --fx-accent-b:#4fa8ff; --fx-accent-c:#59d499;}
+  .fx-aurora .blob.b1{width:44vw;height:44vw;left:-8%;top:-14%;background:radial-gradient(circle, var(--fx-accent-a), transparent 70%);}
+  .fx-aurora .blob.b2{width:42vw;height:42vw;right:-10%;top:6%;background:radial-gradient(circle, var(--fx-accent-b), transparent 70%);animation-delay:-7s;}
+  .fx-aurora .blob.b3{width:36vw;height:36vw;left:25%;bottom:-18%;background:radial-gradient(circle, var(--fx-accent-c), transparent 70%);animation-delay:-13s;}
+  .fx-eyebrow .dot{background:var(--fx-accent-a);color:var(--fx-accent-a);}
+  .fx-btn.primary{background:linear-gradient(120deg, var(--fx-accent-a), var(--fx-accent-b));}
+  .fx-btn.primary:hover{box-shadow:0 8px 30px -6px rgba(34,224,200,0.5);}
+  .fx-card .fx-icon{background:linear-gradient(135deg, rgba(34,224,200,0.22), rgba(79,168,255,0.15));}
+  .fx-stat .fx-num{background:linear-gradient(120deg, var(--fx-accent-a), var(--fx-accent-b));-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+  #fx-canvas-hero{position:absolute;inset:-40px 0 0 0;height:calc(100% + 40px);z-index:0;}
+
+  .fx-live-panel{
+    background:var(--fx-glass);border:1px solid var(--fx-glass-line);border-radius:18px;
+    padding:26px;backdrop-filter:blur(14px);margin:30px 0;
+  }
+  .fx-bars{display:flex;align-items:flex-end;gap:8px;height:90px;margin-top:16px;}
+  .fx-bars .b{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg, var(--fx-accent-a), var(--fx-accent-b));animation:fx-grow 3.4s ease-in-out infinite;transform-origin:bottom;}
+  .fx-bars .b:nth-child(2n){animation-delay:-0.6s;}
+  .fx-bars .b:nth-child(3n){animation-delay:-1.2s;}
+  .fx-bars .b:nth-child(5n){animation-delay:-1.8s;}
+  @keyframes fx-grow{
+    0%,100%{transform:scaleY(0.7);}
+    50%{transform:scaleY(1);}
+  }
+  .fx-pulse-dot{
+    display:inline-block;width:8px;height:8px;border-radius:50%;
+    background:var(--fx-accent-c);margin-right:8px;
+    animation:fx-pulse2 1.6s ease-in-out infinite;
+  }
+  @keyframes fx-pulse2{
+    0%,100%{opacity:0.4;box-shadow:0 0 0 0 rgba(89,212,153,0.5);}
+    50%{opacity:1;box-shadow:0 0 10px 3px rgba(89,212,153,0.4);}
+  }
+</style>
+</head>
+<body class="fx-body">
+
+<div class="fx-aurora">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<nav class="fx-nav">
+  <div class="fx-wrap">
+    <div class="fx-brand">Jake Diego<span style="color:var(--fx-accent-a);">.</span></div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="lab.html">Lab</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="fx-wrap">
+    <section class="fx-hero" style="position:relative;">
+      <canvas id="fx-canvas-hero"></canvas>
+      <div style="position:relative;z-index:1;">
+        <div class="fx-eyebrow fx-reveal"><span class="dot"></span>Concept &middot; live analytics</div>
+        <h1 class="fx-reveal d1">Data that updates while you watch.</h1>
+        <p class="fx-lede fx-reveal d2">A design concept for a live-analytics surface: signals arriving
+          continuously, scored and ranked in real time instead of waiting for a weekly report.</p>
+        <div class="fx-reveal d3">
+          <a class="fx-btn primary" href="mailto:pvegasrentals@gmail.com">Get in touch</a>
+          <a class="fx-btn" href="projects.html">See real projects</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="fx-glow-line"></div>
+
+    <section class="fx-section">
+      <h2>Live signal, not a static report</h2>
+      <p class="fx-section-lede">A concept view of how continuously arriving data could be represented:
+        motion as a feature, not decoration.</p>
+      <div class="fx-live-panel fx-reveal">
+        <div><span class="fx-pulse-dot"></span>Streaming example signal</div>
+        <div class="fx-bars">
+          <div class="b" style="height:40%"></div>
+          <div class="b" style="height:65%"></div>
+          <div class="b" style="height:52%"></div>
+          <div class="b" style="height:80%"></div>
+          <div class="b" style="height:60%"></div>
+          <div class="b" style="height:90%"></div>
+          <div class="b" style="height:70%"></div>
+          <div class="b" style="height:100%"></div>
+          <div class="b" style="height:55%"></div>
+          <div class="b" style="height:75%"></div>
+        </div>
+      </div>
+
+      <div class="fx-stat-row">
+        <div class="fx-stat fx-reveal"><span class="fx-num">Real time</span><span class="fx-label">signals scored as they arrive</span></div>
+        <div class="fx-stat fx-reveal d1"><span class="fx-num">Ranked</span><span class="fx-label">output ordered by what matters most</span></div>
+        <div class="fx-stat fx-reveal d2"><span class="fx-num">Zero</span><span class="fx-label">manual refresh needed</span></div>
+      </div>
+    </section>
+
+    <section class="fx-section">
+      <h2>What this concept explores</h2>
+      <div class="fx-grid">
+        <div class="fx-card fx-reveal">
+          <div class="fx-icon">&#128225;</div>
+          <h3>Continuous collection</h3>
+          <p>Data arrives on its own schedule instead of waiting for someone to pull a report.</p>
+        </div>
+        <div class="fx-card fx-reveal d1">
+          <div class="fx-icon">&#127919;</div>
+          <h3>Signal over noise</h3>
+          <p>A scoring layer that filters raw volume down to what's actually worth a look.</p>
+        </div>
+        <div class="fx-card fx-reveal d2">
+          <div class="fx-icon">&#128200;</div>
+          <h3>Ranked, not raw</h3>
+          <p>The output is always a ranked, readable list, never a data dump someone has to interpret.</p>
+        </div>
+        <div class="fx-card fx-reveal d3">
+          <div class="fx-icon">&#9201;&#65039;</div>
+          <h3>Freshness as a first-class fact</h3>
+          <p>Every figure on screen carries a visible "as of," so staleness is obvious, not hidden.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="fx-glow-line"></div>
+
+    <section class="fx-section">
+      <h2>A concept, not a claim</h2>
+      <p class="fx-section-lede">This page is a design exploration of a live-analytics surface. For real,
+        shipped systems with measured outcomes, see the projects page.</p>
+      <a class="fx-btn primary" href="projects.html">View real projects &rarr;</a>
+    </section>
+
+    <section class="fx-more">
+      <div class="fx-more-label">More concepts</div>
+      <div class="fx-more-row">
+        <a href="concept-ai-systems.html">AI Systems</a>
+        <a class="current" href="concept-data-intelligence.html">Data Intelligence</a>
+        <a href="concept-flow-studio.html">Flow Studio</a>
+        <a href="concept-sentinel.html">Sentinel Grid</a>
+        <a href="concept-nest-planner.html">Nest Planner</a>
+        <a href="concept-dream-canvas.html">Dream Canvas</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="fx-footer">
+  <div class="fx-wrap">
+    <div>Built by Jake Diego.</div>
+    <div><a href="mailto:pvegasrentals@gmail.com">pvegasrentals@gmail.com</a></div>
+  </div>
+</footer>
+
+<script src="futuristic.js"></script>
+<script>
+  FX.initParticles('fx-canvas-hero', {count: 46, color: '34,224,200'});
+</script>
+</body>
+</html>

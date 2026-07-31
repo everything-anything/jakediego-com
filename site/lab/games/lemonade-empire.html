@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Tycoon 🍋 Lemonade Empire</title>
+<style>
+  :root{
+    --sky1:#aee6ff; --sky2:#fff3c4; --lemon:#ffd93b; --lemon-d:#e8b400;
+    --pink:#ff7ba9; --pink-d:#e0517f; --ink:#4a3520; --cream:#fffbef;
+    --blue:#3aa0ff; --blue-d:#1f7ad1; --good:#2fbf6b; --good-d:#1e9950;
+    --bad:#ff5b6e; --gold:#ffcf3f; --wood:#c98a4b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:"Comic Sans MS","Baloo 2","Trebuchet MS",system-ui,sans-serif;
+    color:var(--ink);
+    background:linear-gradient(180deg,var(--sky1) 0%,#d9f2ff 45%,var(--sky2) 100%);
+    overflow:hidden;-webkit-font-smoothing:antialiased;
+  }
+  .screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;
+    padding:16px;overflow:auto;}
+  .screen.active{display:flex;animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:scale(.98);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+
+  h1.logo{font-size:clamp(34px,7vw,70px);color:var(--pink-d);
+    text-shadow:3px 3px 0 #fff,6px 6px 0 rgba(0,0,0,.08);letter-spacing:1px;text-align:center;}
+  .tagline{font-size:clamp(14px,2vw,20px);color:#7a6242;margin-top:4px;text-align:center;}
+
+  .btn{font-family:inherit;font-size:20px;font-weight:bold;color:#fff;
+    background:var(--pink);border:none;border-bottom:5px solid var(--pink-d);
+    border-radius:18px;padding:14px 26px;cursor:pointer;transition:transform .08s,filter .15s;
+    box-shadow:0 6px 14px rgba(224,81,127,.3);}
+  .btn:hover{filter:brightness(1.06);} .btn:active{transform:translateY(3px);border-bottom-width:2px;}
+  .btn:focus-visible{outline:4px solid #fff;outline-offset:2px;}
+  .btn.blue{background:var(--blue);border-bottom-color:var(--blue-d);box-shadow:0 6px 14px rgba(58,160,255,.3);}
+  .btn.green{background:var(--good);border-bottom-color:var(--good-d);box-shadow:0 6px 14px rgba(47,191,107,.3);}
+  .btn.ghost{background:#fff;color:var(--pink-d);border-bottom-color:#f0d8c8;box-shadow:0 6px 14px rgba(0,0,0,.08);}
+  .btn.sm{font-size:15px;padding:8px 14px;border-radius:12px;border-bottom-width:4px;}
+  .btn:disabled{filter:grayscale(.7);opacity:.55;cursor:not-allowed;transform:none;}
+
+  .card{background:rgba(255,255,255,.85);backdrop-filter:blur(4px);border-radius:24px;
+    padding:18px 22px;box-shadow:0 14px 32px rgba(0,0,0,.12);width:100%;max-width:820px;}
+  .card-menu{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:640px;
+    background:rgba(255,255,255,.85);border-radius:28px;padding:28px 32px;box-shadow:0 18px 40px rgba(0,0,0,.12);}
+
+  /* ---- HUD ---- */
+  .hud{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;max-width:820px;margin-bottom:12px;}
+  .hud .chip{background:#fff;border:3px solid var(--lemon);border-radius:16px;padding:8px 16px;
+    font-size:18px;font-weight:bold;box-shadow:0 4px 0 rgba(0,0,0,.06);}
+  .hud .chip.jar{border-color:var(--blue);}
+  .hud .chip.day{border-color:var(--pink);}
+
+  .sect-title{font-size:20px;font-weight:bold;color:var(--pink-d);margin-bottom:8px;
+    display:flex;align-items:center;gap:8px;}
+  .hint{font-size:14px;color:#8a7355;margin-top:4px;}
+
+  /* ---- forecast ---- */
+  .forecast{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .forecast .wx{font-size:56px;line-height:1;}
+  .forecast .wx-name{font-size:22px;font-weight:bold;}
+
+  /* ---- shop ---- */
+  .shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;}
+  .item{background:var(--cream);border:3px solid #f2dfae;border-radius:18px;padding:12px;
+    display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;}
+  .item .emo{font-size:40px;line-height:1;}
+  .item .nm{font-weight:bold;font-size:17px;}
+  .item .desc{font-size:13px;color:#8a7355;min-height:34px;}
+  .item .own{font-size:14px;font-weight:bold;color:var(--good-d);}
+
+  /* ---- price pills ---- */
+  .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center;}
+  .pill{font-size:22px;font-weight:bold;background:#fff;border:3px solid #ffd9b8;color:#8a6b54;
+    border-radius:16px;padding:10px 22px;cursor:pointer;transition:.12s;user-select:none;}
+  .pill.on{background:var(--gold);border-color:#e8a800;color:#5b4500;transform:translateY(-2px);
+    box-shadow:0 5px 0 #e8a800;}
+  .pill:focus-visible{outline:4px solid var(--blue);}
+
+  /* ---- jar ---- */
+  .jar-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;}
+  .jar-emo{font-size:52px;}
+
+  .morning-grid{display:flex;flex-direction:column;gap:14px;width:100%;max-width:820px;}
+
+  /* ---- day run ---- */
+  .stage{position:relative;width:100%;max-width:820px;height:320px;border-radius:24px;overflow:hidden;
+    box-shadow:0 14px 32px rgba(0,0,0,.15);background:linear-gradient(180deg,#9edcff 0%,#c9efff 55%,#8fd964 55%,#6cc244 100%);}
+  .stage.rainy{background:linear-gradient(180deg,#8fa6bd 0%,#b9c9d8 55%,#6da85c 55%,#54903f 100%);}
+  .stage.hot{background:linear-gradient(180deg,#ffd98a 0%,#ffefc0 55%,#a8d95f 55%,#7fbf3f 100%);}
+  .stage.cloudy{background:linear-gradient(180deg,#c3d6e4 0%,#e2ecf3 55%,#84c95c 55%,#63a83f 100%);}
+  .sun{position:absolute;top:14px;left:20px;font-size:56px;}
+  .stand{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:16px;text-align:center;}
+  .stand .booth{font-size:80px;line-height:1;}
+  .stand .banner{background:var(--lemon);border:3px solid var(--lemon-d);border-radius:10px;
+    padding:2px 10px;font-weight:bold;display:inline-block;}
+  .walker{position:absolute;bottom:30px;font-size:40px;transition:left 1.1s linear;}
+  .bubble{position:absolute;background:#fff;border-radius:12px;padding:4px 10px;font-weight:bold;
+    font-size:15px;box-shadow:0 4px 10px rgba(0,0,0,.15);animation:pop .3s ease;}
+  @keyframes pop{from{transform:scale(.5);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .day-counter{font-size:22px;font-weight:bold;margin:12px 0;background:#fff;border-radius:16px;
+    padding:10px 20px;box-shadow:0 6px 14px rgba(0,0,0,.1);}
+
+  /* ---- report ---- */
+  .ledger{width:100%;border-collapse:collapse;font-size:19px;}
+  .ledger td{padding:8px 6px;border-bottom:2px dashed #efe0bd;}
+  .ledger td:last-child{text-align:right;font-weight:bold;}
+  .ledger tr.total td{border-bottom:none;font-size:23px;font-weight:bold;}
+  .money-in{color:var(--good-d);} .money-out{color:var(--bad);}
+  .profit-pos{color:var(--good-d);} .profit-neg{color:var(--bad);}
+  .lesson{background:#fff6d8;border:3px dashed var(--lemon-d);border-radius:16px;padding:10px 14px;
+    font-size:16px;margin-top:12px;}
+
+  /* ---- event ---- */
+  .event-emo{font-size:84px;line-height:1;margin-bottom:6px;}
+  .event-text{font-size:20px;text-align:center;max-width:560px;}
+  .choice-col{display:flex;flex-direction:column;gap:12px;margin-top:16px;width:100%;max-width:420px;}
+  .choice-col .btn{width:100%;}
+
+  /* ---- week chart ---- */
+  .chart{display:flex;align-items:flex-end;gap:8px;height:170px;padding:10px;background:var(--cream);
+    border-radius:16px;border:3px solid #f2dfae;}
+  .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;}
+  .bar{width:100%;max-width:44px;border-radius:8px 8px 0 0;background:var(--good);transition:height .6s ease;}
+  .bar.neg{background:var(--bad);border-radius:0 0 8px 8px;}
+  .bar-lbl{font-size:12px;font-weight:bold;}
+  .bar-val{font-size:12px;font-weight:bold;}
+
+  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold);border:3px solid #e8a800;
+    border-radius:16px;padding:8px 16px;font-weight:bold;font-size:17px;margin:4px;}
+
+  .stars{font-size:56px;letter-spacing:6px;}
+  .big-emo{font-size:96px;line-height:1;}
+  .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:#fff;
+    padding:10px 20px;border-radius:14px;font-weight:bold;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99;}
+  .toast.show{opacity:1;}
+  .footer-note{font-size:12px;color:#9a8668;margin-top:14px;text-align:center;}
+</style>
+</head>
+<body>
+
+<!-- ============ TITLE ============ -->
+<div class="screen active" id="scr-title">
+  <div style="flex:1"></div>
+  <div class="card-menu">
+    <div class="big-emo">🍋🥤</div>
+    <h1 class="logo">Lemonade Empire</h1>
+    <p class="tagline">Mission Tycoon! Run your stand for 14 days.<br>Buy smart. Set prices. Watch the sky. Grow your money! 💰</p>
+    <div class="row" style="margin-top:14px">
+      <button class="btn green" id="btn-continue" style="display:none">▶️ Continue Day <span id="cont-day"></span></button>
+      <button class="btn" id="btn-new">🌞 New Game</button>
+    </div>
+    <button class="btn ghost sm" id="btn-how">❓ How to Play</button>
+    <p class="footer-note">Your game saves automatically after each day.</p>
+  </div>
+  <div style="flex:1.4"></div>
+</div>
+
+<!-- ============ HOW TO PLAY ============ -->
+<div class="screen" id="scr-how">
+  <div style="flex:.4"></div>
+  <div class="card-menu" style="align-items:flex-start;gap:12px">
+    <h1 class="logo" style="font-size:34px;align-self:center">How to Play 📖</h1>
+    <div style="font-size:17px;line-height:1.6">
+      🌤️ <b>Check the forecast.</b> Hot days = LOTS of thirsty customers. Rainy days = almost none. (The forecast is sometimes wrong!)<br><br>
+      🛒 <b>Buy supplies.</b> One Lemonade Kit makes 5 cups and costs $5, so each cup costs you <b>$1 to make</b>. Sell it for more than $1 and you earn <b>profit</b>!<br><br>
+      💲 <b>Set your price.</b> Cheap prices bring more customers. High prices earn more per cup… but scare people away. That's <b>supply and demand</b>!<br><br>
+      🏦 <b>Use your Rainy Day Jar.</b> Money in the jar is SAFE, sneaky robbers and bad days can't touch it. Smart bosses always save some!<br><br>
+      🌙 <b>Watch out at night.</b> Surprises happen. Your choices matter!
+    </div>
+    <button class="btn blue" id="btn-how-back" style="align-self:center">👍 Got it!</button>
+  </div>
+  <div style="flex:1"></div>
+</div>
+
+<!-- ============ MORNING ============ -->
+<div class="screen" id="scr-morning">
+  <div class="hud">
+    <div class="chip day">📅 Day <span id="m-day"></span> / 14</div>
+    <div class="chip">💵 Cash: $<span id="m-cash"></span></div>
+    <div class="chip jar">🏦 Jar: $<span id="m-jar"></span></div>
+    <div class="chip">🥤 Cups ready: <span id="m-cups"></span></div>
+  </div>
+
+  <div class="morning-grid">
+    <div class="card">
+      <div class="sect-title">🔭 Tomorrow's… I mean, TODAY'S Forecast</div>
+      <div class="forecast">
+        <div class="wx" id="m-wx-emo">☀️</div>
+        <div>
+          <div class="wx-name" id="m-wx-name">Sunny</div>
+          <div class="hint" id="m-wx-hint"></div>
+        </div>
+      </div>
+      <div class="hint">🤫 Psst… the weather person is right <b>most</b> of the time. Not always!</div>
+      <div id="m-notice" class="lesson" style="display:none"></div>
+    </div>
+
+    <div class="card">
+      <div class="sect-title">🛒 Supply Shop</div>
+      <div class="shop-grid" id="shop-grid"></div>
+      <div class="hint">🧾 Recipe card: 1 kit = 5 cups for $5 → <b>each cup costs $1 to make</b> (that's your unit cost!)</div>
+    </div>
+
+    <div class="card">
+      <div class="sect-title">💲 Price per Cup</div>
+      <div class="row" id="price-row"></div>
+      <div class="hint" id="price-hint"></div>
+    </div>
+
+    <div class="card">
+      <div class="sect-title">🏦 Rainy Day Jar <span style="font-weight:normal;font-size:14px;color:#8a7355">(safe from robbers & bad luck!)</span></div>
+      <div class="jar-row">
+        <div class="jar-emo">🫙</div>
+        <button class="btn blue sm" id="jar-in">➕ Put in $1</button>
+        <button class="btn ghost sm" id="jar-out">➖ Take out $1</button>
+        <div style="font-weight:bold;font-size:18px">Jar: $<span id="jar-amt"></span></div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:center;margin:6px 0 20px">
+      <button class="btn green" id="btn-open" style="font-size:24px">🥤 Open the Stand!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DAY RUN ============ -->
+<div class="screen" id="scr-day">
+  <div style="flex:.4"></div>
+  <div class="day-counter">📅 Day <span id="d-day"></span>, <span id="d-wx"></span></div>
+  <div class="stage" id="stage">
+    <div class="sun" id="stage-sun">☀️</div>
+    <div class="stand">
+      <div class="booth">🛖</div>
+      <div class="banner">🍋 $<span id="d-price"></span> a cup!</div>
+    </div>
+  </div>
+  <div class="day-counter">Cups sold: <span id="d-sold">0</span> 🥤 &nbsp; Money made: $<span id="d-rev">0</span></div>
+  <button class="btn ghost sm" id="btn-skip" style="margin-top:10px">⏭️ Skip to Report</button>
+  <div style="flex:1"></div>
+</div>
+
+<!-- ============ REPORT ============ -->
+<div class="screen" id="scr-report">
+  <div style="flex:.3"></div>
+  <div class="card" style="max-width:560px">
+    <h1 class="logo" style="font-size:32px;text-align:center">📋 Day <span id="r-day"></span> Report</h1>
+    <p style="text-align:center;font-size:17px;margin:6px 0" id="r-summary"></p>
+    <table class="ledger">
+      <tr><td>💵 Money in (sold <span id="r-sold"></span> cups × $<span id="r-price"></span>)</td><td class="money-in">+$<span id="r-rev"></span></td></tr>
+      <tr><td>🛒 Money out (supplies today)</td><td class="money-out">−$<span id="r-cost"></span></td></tr>
+      <tr class="total"><td>⭐ Today's profit</td><td id="r-profit-cell">$<span id="r-profit"></span></td></tr>
+    </table>
+    <div class="lesson" id="r-lesson"></div>
+    <div style="display:flex;justify-content:center;margin-top:16px">
+      <button class="btn" id="btn-report-next">➡️ Continue</button>
+    </div>
+  </div>
+  <div style="flex:1"></div>
+</div>
+
+<!-- ============ EVENT ============ -->
+<div class="screen" id="scr-event">
+  <div style="flex:.5"></div>
+  <div class="card-menu">
+    <div class="event-emo" id="e-emo">🌙</div>
+    <div class="event-text" id="e-text"></div>
+    <div class="choice-col" id="e-choices"></div>
+  </div>
+  <div style="flex:1"></div>
+</div>
+
+<!-- ============ WEEK REPORT ============ -->
+<div class="screen" id="scr-week">
+  <div style="flex:.2"></div>
+  <div class="card" style="max-width:680px">
+    <h1 class="logo" style="font-size:32px;text-align:center">📊 Week <span id="w-num"></span> Report!</h1>
+    <div class="chart" id="w-chart"></div>
+    <table class="ledger" style="margin-top:12px">
+      <tr><td>💵 Money in this week</td><td class="money-in">+$<span id="w-rev"></span></td></tr>
+      <tr><td>🛒 Money out this week</td><td class="money-out">−$<span id="w-cost"></span></td></tr>
+      <tr class="total"><td>⭐ Week profit</td><td id="w-profit-cell">$<span id="w-profit"></span></td></tr>
+    </table>
+    <div style="text-align:center;margin-top:10px" id="w-badges"></div>
+    <div class="lesson" id="w-lesson"></div>
+    <div style="display:flex;justify-content:center;margin-top:14px">
+      <button class="btn green" id="btn-week-next">➡️ Keep going!</button>
+    </div>
+  </div>
+  <div style="flex:1"></div>
+</div>
+
+<!-- ============ FINAL ============ -->
+<div class="screen" id="scr-final">
+  <div style="flex:.3"></div>
+  <div class="card-menu">
+    <div class="big-emo">🏆</div>
+    <h1 class="logo" style="font-size:40px">Empire Complete!</h1>
+    <div class="stars" id="f-stars"></div>
+    <p style="font-size:20px;text-align:center" id="f-text"></p>
+    <table class="ledger" style="max-width:420px">
+      <tr><td>💵 Cash</td><td>$<span id="f-cash"></span></td></tr>
+      <tr><td>🏦 Rainy Day Jar</td><td>$<span id="f-jar"></span></td></tr>
+      <tr class="total"><td>💰 Total fortune</td><td>$<span id="f-total"></span></td></tr>
+      <tr><td>🥤 Total cups sold</td><td><span id="f-cups"></span></td></tr>
+      <tr><td>⭐ Total profit earned</td><td>$<span id="f-profit"></span></td></tr>
+    </table>
+    <div id="f-badges" style="text-align:center"></div>
+    <button class="btn" id="btn-restart">🔁 Play Again</button>
+  </div>
+  <div style="flex:1"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+"use strict";
+/* ================= STATE & SAVE ================= */
+const SAVE_KEY = "lemonadeEmpireSave_v1";
+let memSave = null; // fallback if storage blocked
+function saveGame(){
+  const data = JSON.stringify(S);
+  try{ localStorage.setItem(SAVE_KEY, data); }catch(e){ memSave = data; }
+}
+function loadGame(){
+  try{ const d = localStorage.getItem(SAVE_KEY); if(d) return JSON.parse(d); }catch(e){}
+  if(memSave) return JSON.parse(memSave);
+  return null;
+}
+function clearSave(){ try{ localStorage.removeItem(SAVE_KEY); }catch(e){} memSave = null; }
+
+function freshState(){
+  return {
+    day:1, cash:20, jar:0, cups:0,
+    ice:false, sign:false, umbrella:false, fence:false,
+    price:2, spentToday:0,
+    forecast:null, actualWx:null,
+    pendingEvent:null,          // event to resolve tonight
+    tomorrowMod:{cust:0, note:null}, // effects applied to next day
+    robberLoose:false,
+    history:[],                 // {day, wx, sold, rev, cost, profit}
+    totalCups:0, totalProfit:0,
+    badges:[]
+  };
+}
+let S = freshState();
+
+/* ================= WEATHER ================= */
+const WX = {
+  heat:  {emo:"🔥☀️", name:"HEAT WAVE!",  hint:"Everyone is SO thirsty! Ice sells like crazy.", base:16, cls:"hot",   sun:"🥵"},
+  sunny: {emo:"☀️",  name:"Sunny",       hint:"A perfect lemonade day!",                        base:12, cls:"",      sun:"☀️"},
+  cloudy:{emo:"⛅",  name:"Cloudy",      hint:"Some people are out walking around.",            base:7,  cls:"cloudy",sun:"⛅"},
+  rain:  {emo:"🌧️", name:"Rainy",       hint:"Uh oh. Almost nobody wants cold lemonade in the rain.", base:3, cls:"rainy", sun:"🌧️"}
+};
+function rollWeather(){
+  const r = Math.random();
+  if(r < .18) return "heat";
+  if(r < .58) return "sunny";
+  if(r < .82) return "cloudy";
+  return "rain";
+}
+function rollForecast(){
+  const actual = rollWeather();
+  let forecast = actual;
+  if(Math.random() < .25){ // forecast wrong 25% of the time
+    const keys = Object.keys(WX).filter(k=>k!==actual);
+    forecast = keys[Math.floor(Math.random()*keys.length)];
+  }
+  return {forecast, actual};
+}
+
+/* ================= SHOP ================= */
+const ITEMS = [
+  {id:"kit", emo:"🍋", nm:"Lemonade Kit", price:5, desc:"Lemons + sugar + cups. Makes 5 cups!", repeat:true},
+  {id:"ice", emo:"🧊", nm:"Bag of Ice", price:2, desc:"Cold drinks on hot days = more sales! Melts tonight.", repeat:false, key:"ice"},
+  {id:"sign", emo:"🪧", nm:"Big Sign", price:3, desc:"Buy once. Brings extra customers every day!", repeat:false, key:"sign", forever:true},
+  {id:"umb", emo:"⛱️", nm:"Umbrella", price:3, desc:"Buy once. Helps a little on rainy days.", repeat:false, key:"umbrella", forever:true}
+];
+
+/* ================= HELPERS ================= */
+const $ = id => document.getElementById(id);
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._tm); t._tm = setTimeout(()=>t.classList.remove("show"), 2200);
+}
+function money(n){ return n < 0 ? "−$"+Math.abs(n) : "$"+n; }
+
+/* ================= TITLE ================= */
+function initTitle(){
+  const save = loadGame();
+  if(save && save.day <= 14){
+    $("btn-continue").style.display = "inline-block";
+    $("cont-day").textContent = save.day;
+    $("btn-continue").onclick = ()=>{ S = save; startMorning(false); };
+  } else {
+    $("btn-continue").style.display = "none";
+  }
+}
+$("btn-new").onclick = ()=>{
+  clearSave(); S = freshState(); startMorning(true);
+};
+$("btn-how").onclick = ()=>show("scr-how");
+$("btn-how-back").onclick = ()=>show("scr-title");
+$("btn-restart").onclick = ()=>{ clearSave(); S = freshState(); initTitle(); show("scr-title"); };
+
+/* ================= MORNING ================= */
+function startMorning(rollNew){
+  if(rollNew || !S.forecast){
+    const w = rollForecast();
+    S.forecast = w.forecast; S.actualWx = w.actual;
+  }
+  S.spentToday = 0;
+  // robber strikes overnight if ignored
+  if(S.robberLoose){
+    const stolen = Math.ceil(S.cash/2);
+    S.cash -= stolen; S.robberLoose = false;
+    $("m-notice").style.display = "block";
+    $("m-notice").innerHTML = "🦝💨 Oh no! The sneaky robber took <b>$"+stolen+"</b> from your cash box overnight! Your jar money was safe: $"+S.jar+". <b>That's why we keep a Rainy Day Jar!</b>";
+  } else if(S.tomorrowMod.note){
+    $("m-notice").style.display = "block";
+    $("m-notice").innerHTML = S.tomorrowMod.note;
+  } else {
+    $("m-notice").style.display = "none";
+  }
+  renderMorning();
+  saveGame();
+  show("scr-morning");
+}
+
+function renderMorning(){
+  $("m-day").textContent = S.day;
+  $("m-cash").textContent = S.cash;
+  $("m-jar").textContent = S.jar;
+  $("m-cups").textContent = S.cups;
+  $("jar-amt").textContent = S.jar;
+  const f = WX[S.forecast];
+  $("m-wx-emo").textContent = f.emo;
+  $("m-wx-name").textContent = f.name;
+  $("m-wx-hint").textContent = f.hint;
+  renderShop(); renderPrices();
+}
+
+function renderShop(){
+  const g = $("shop-grid"); g.innerHTML = "";
+  ITEMS.forEach(it=>{
+    const div = document.createElement("div");
+    div.className = "item";
+    let ownTxt = "";
+    if(it.id==="kit") ownTxt = "You have "+S.cups+" cups ready";
+    else if(it.forever && S[it.key]) ownTxt = "✅ You own this!";
+    else if(it.id==="ice" && S.ice) ownTxt = "🧊 In the cooler!";
+    div.innerHTML = '<div class="emo">'+it.emo+'</div><div class="nm">'+it.nm+', $'+it.price+'</div>'+
+      '<div class="desc">'+it.desc+'</div><div class="own">'+ownTxt+'</div>';
+    const btn = document.createElement("button");
+    btn.className = "btn blue sm";
+    btn.textContent = "Buy 🛒";
+    const owned = (it.forever && S[it.key]) || (it.id==="ice" && S.ice);
+    btn.disabled = owned || S.cash < it.price;
+    btn.onclick = ()=>{
+      if(S.cash < it.price) return;
+      S.cash -= it.price; S.spentToday += it.price;
+      if(it.id==="kit") S.cups += 5; else S[it.key] = true;
+      toast("Bought "+it.nm+"! "+it.emo);
+      renderMorning(); saveGame();
+    };
+    div.appendChild(btn);
+    g.appendChild(div);
+  });
+}
+
+const PRICE_HINTS = {
+  1:"$1 a cup = NO profit (each cup costs $1 to make!). But tons of customers!",
+  2:"$2 a cup = $1 profit per cup. A safe, friendly price. 😊",
+  3:"$3 a cup = $2 profit per cup! But some people say 'too pricey!'",
+  4:"$4 a cup = $3 profit per cup… if anyone buys. 😅 Best on heat wave days!"
+};
+function renderPrices(){
+  const row = $("price-row"); row.innerHTML = "";
+  [1,2,3,4].forEach(p=>{
+    const b = document.createElement("button");
+    b.className = "pill"+(S.price===p?" on":"");
+    b.textContent = "$"+p;
+    b.onclick = ()=>{ S.price = p; renderPrices(); saveGame(); };
+    row.appendChild(b);
+  });
+  $("price-hint").textContent = PRICE_HINTS[S.price];
+}
+
+$("jar-in").onclick = ()=>{
+  if(S.cash < 1){ toast("No cash to put in!"); return; }
+  S.cash--; S.jar++; renderMorning(); saveGame();
+};
+$("jar-out").onclick = ()=>{
+  if(S.jar < 1){ toast("The jar is empty!"); return; }
+  S.jar--; S.cash++; renderMorning(); saveGame();
+};
+
+$("btn-open").onclick = ()=>{
+  if(dayInProgress) return;           // guard against double-click
+  if(S.cups === 0){
+    toast("You have 0 cups! Buy a Lemonade Kit first 🍋");
+    return;
+  }
+  runDay();
+};
+$("btn-skip").onclick = ()=>{ if(dayInProgress) forceFinish(); };
+
+/* ================= DAY SIMULATION ================= */
+function calcCustomers(wx){
+  let c = WX[wx].base;
+  c += (2 - S.price) * 3;              // price sensitivity
+  if(S.sign) c += 3;
+  if(wx==="heat"){ c += S.ice ? 4 : -5; }   // warm lemonade on a heat wave :(
+  if(wx==="rain" && S.umbrella) c += 3;
+  c += S.tomorrowMod.cust || 0;
+  if(S.tomorrowMod.mult) c = Math.round(c * S.tomorrowMod.mult);
+  return Math.max(0, c);
+}
+
+/* Day-run guards. dayInProgress blocks re-entry; _run holds this day's numbers so
+   finishDay/forceFinish/watchdog always agree. _finished makes finishing idempotent. */
+let dayInProgress = false;
+let _run = null;
+let _finished = false;
+let _watchdog = null;
+const _timers = [];                       // every timer we set, so we can cancel them
+function later(fn, ms){ const id = setTimeout(fn, ms); _timers.push(id); return id; }
+function clearAllTimers(){ while(_timers.length){ clearTimeout(_timers.pop()); } }
+
+function runDay(){
+  dayInProgress = true;
+  _finished = false;
+  clearAllTimers();
+  const wx = S.actualWx;
+  const W = WX[wx];
+  const customers = calcCustomers(wx);
+  const sold = Math.min(customers, S.cups);
+  const rev = sold * S.price;
+  _run = {wx, sold, rev};
+
+  // stage setup
+  $("d-day").textContent = S.day;
+  $("d-wx").textContent = W.emo + " " + W.name + (wx !== S.forecast ? "  (the forecast was WRONG!)" : "");
+  $("d-price").textContent = S.price;
+  const stage = $("stage");
+  stage.className = "stage " + W.cls;
+  $("stage-sun").textContent = W.sun;
+  stage.querySelectorAll(".walker,.bubble").forEach(e=>e.remove());
+  $("d-sold").textContent = "0"; $("d-rev").textContent = "0";
+  show("scr-day");
+
+  // WATCHDOG: no matter what happens in the animation below, the day WILL end.
+  // Longest possible animation is ~ (8 walkers * ~1.9s) + buffers ≈ 17s. Cap at 20s.
+  _watchdog = later(()=>{ forceFinish(); }, 20000);
+
+  // animate customers, wrapped so a stray error can never strand the player
+  try {
+    const walkers = ["🧒","👧","👦","👵","👨","👩","🧑‍🦱","👴","🧑‍🎤","👷"];
+    let shown = 0;
+    const total = Math.min(sold, 8);
+    const perWalker = total > 0 ? sold/total : 0;
+
+    function spawn(){
+      if(_finished) return;
+      if(shown >= total){
+        $("d-sold").textContent = sold;
+        $("d-rev").textContent = rev;
+        later(()=>finishDay(), 900);
+        return;
+      }
+      shown++;
+      const w = document.createElement("div");
+      w.className = "walker";
+      w.textContent = walkers[Math.floor(Math.random()*walkers.length)];
+      const fromLeft = Math.random() < .5;
+      w.style.left = fromLeft ? "-50px" : "870px";
+      stage.appendChild(w);
+      requestAnimationFrame(()=>{ w.style.left = "calc(50% + " + (fromLeft?-90:60) + "px)"; });
+      later(()=>{
+        if(_finished){ w.remove(); return; }
+        const b = document.createElement("div");
+        b.className = "bubble";
+        b.textContent = ["Yum! 🥤","So good!","Thanks!","Refreshing!","Mmm! 🍋"][Math.floor(Math.random()*5)];
+        b.style.left = "calc(50% + " + (fromLeft?-120:70) + "px)";
+        b.style.bottom = "110px";
+        stage.appendChild(b);
+        const counted = Math.min(sold, Math.round(perWalker*shown));
+        $("d-sold").textContent = counted;
+        $("d-rev").textContent = counted * S.price;
+        later(()=>{ b.remove(); w.remove(); }, 800);
+        later(spawn, 350);
+      }, 1200);
+    }
+    if(total === 0){
+      later(()=>{
+        if(_finished) return;
+        const b = document.createElement("div");
+        b.className = "bubble"; b.textContent = "…no customers today 😢";
+        b.style.left = "calc(50% - 90px)"; b.style.bottom = "130px";
+        stage.appendChild(b);
+        later(()=>finishDay(), 1800);
+      }, 900);
+    } else spawn();
+  } catch(err){
+    // Animation blew up, end the day cleanly anyway.
+    forceFinish();
+  }
+}
+
+// Instantly end the day using the pre-computed numbers (Skip button, watchdog, errors).
+function forceFinish(){
+  if(!dayInProgress || _finished || !_run) return;
+  $("d-sold").textContent = _run.sold;
+  $("d-rev").textContent = _run.rev;
+  finishDay();
+}
+
+// Idempotent: applies the day's results exactly once, then moves to the report.
+function finishDay(){
+  if(_finished || !_run) return;
+  _finished = true;
+  clearAllTimers();
+  if(_watchdog){ clearTimeout(_watchdog); _watchdog = null; }
+  const {wx, sold, rev} = _run;
+  S.cash += rev;
+  S.cups -= sold;
+  S.totalCups += sold;
+  const cost = S.spentToday;
+  const profit = rev - cost;
+  S.totalProfit += profit;
+  S.history.push({day:S.day, wx, sold, rev, cost, profit});
+  S.ice = false;                         // ice melts
+  S.tomorrowMod = {cust:0, note:null};   // clear one-day effects
+  dayInProgress = false;
+  saveGame();
+  showReport(wx, sold, rev, cost, profit);
+}
+
+/* ================= REPORT ================= */
+function showReport(wx, sold, rev, cost, profit){
+  $("r-day").textContent = S.day;
+  $("r-sold").textContent = sold;
+  $("r-price").textContent = S.price;
+  $("r-rev").textContent = rev;
+  $("r-cost").textContent = cost;
+  const cell = $("r-profit-cell");
+  cell.className = profit >= 0 ? "profit-pos" : "profit-neg";
+  cell.innerHTML = (profit<0?"−$":"+$") + Math.abs(profit) + (profit>=0?" 🎉":" 😬");
+
+  const W = WX[wx];
+  let sum = W.emo + " It was " + W.name.toLowerCase().replace("!","") + ". ";
+  if(wx !== S.forecast) sum += "The forecast fooled us! ";
+  if(sold === 0) sum += "Not one cup sold.";
+  else sum += "You sold " + sold + " cups at $" + S.price + " each.";
+  $("r-summary").textContent = sum;
+
+  // pick a lesson
+  let lesson;
+  if(profit < 0 && wx === "rain") lesson = "🌧️ Rainy days lose money, that's why smart bosses keep a <b>Rainy Day Jar</b> for tough days!";
+  else if(sold < 3 && S.price >= 3) lesson = "💡 High price, few buyers! When the price goes UP, demand goes DOWN. Try a lower price on slow days.";
+  else if(sold >= 10 && S.price === 1) lesson = "💡 WOW, so many customers, but $1 a cup is exactly what a cup costs to make. Sales are not the same as <b>profit</b>!";
+  else if(wx === "heat" && !S.sign) lesson = "🔥 Hot days bring big demand. Charging a little more on heat wave days is smart business!";
+  else if(profit > 0) lesson = "⭐ Profit = money in − money out. You made $" + rev + " and spent $" + cost + ". Nice work, boss!";
+  else lesson = "💡 Profit = money in − money out. Spend carefully and don't buy more than you can sell!";
+  $("r-lesson").innerHTML = lesson;
+
+  show("scr-report");
+}
+
+$("btn-report-next").onclick = ()=>{
+  // maybe an evening event
+  const ev = rollEvent();
+  if(ev){ showEvent(ev); return; }
+  afterEvening();
+};
+
+function afterEvening(){
+  if(S.day === 7 || S.day === 14){
+    showWeek(S.day === 7 ? 1 : 2);
+    return;
+  }
+  nextDay();
+}
+function nextDay(){
+  S.day++;
+  if(S.day > 14){ showFinal(); return; }
+  startMorning(true);
+}
+
+/* ================= EVENTS ================= */
+function rollEvent(){
+  if(S.day === 14) return null;           // quiet last night
+  if(Math.random() > .55) return null;    // ~55% chance of an event
+  const pool = [];
+
+  pool.push({ // robber
+    emo:"🦝🕶️", 
+    text:"Late at night you spot a sneaky raccoon burglar eyeing your cash box! ($"+S.cash+" inside… your jar is locked up safe.)",
+    choices:[
+      {label:"📞 Call the police (free!)", fx:()=>{ 
+        S.tomorrowMod.note = "👮 The police scared the robber away, AND the officer bought lemonade! Everyone feels safe near your stand. (+3 customers today!)";
+        S.tomorrowMod.cust = 3;
+        toast("The robber ran away! 👮"); }},
+      {label:"😴 Meh, ignore it and go to bed", fx:()=>{ S.robberLoose = true; toast("You went to sleep… 😬"); }}
+    ]});
+
+  if(!S.fence) pool.push({ // dog
+    emo:"🐕💨",
+    text:"A big happy dog is zooming around the neighborhood knocking things over! Your stand might be next!",
+    choices:[
+      {label:"🪵 Build a little fence ($2)", fx:()=>{
+        if(S.cash>=2){ S.cash-=2; S.spentToday=0; S.fence=true; S.tomorrowMod.note="🪵 Your new fence kept the zoomy dog out. The stand is safe forever!"; toast("Fence built! 🪵"); }
+        else { S.tomorrowMod.note="😅 You couldn't afford a fence…"; dogSmash(); }
+      }},
+      {label:"🤞 Hope the dog misses your stand", fx:()=>{
+        if(Math.random()<.6) dogSmash();
+        else S.tomorrowMod.note = "🐕 Phew! The dog zoomed right past your stand. Lucky!";
+      }}
+    ]});
+
+  pool.push({ // competitor
+    emo:"🧢🥤",
+    text:"A kid named Max opened a lemonade stand across the street… and he's telling everyone his lemonade is better!",
+    choices:[
+      {label:"🎨 Make a super colorful poster ($1)", fx:()=>{
+        if(S.cash>=1){ S.cash-=1; S.tomorrowMod.cust = 2; S.tomorrowMod.note = "🎨 Your amazing poster won the crowd! (+2 customers today)"; }
+        else { S.tomorrowMod.cust=-4; S.tomorrowMod.note="😬 No money for a poster. Max took some of your customers today. (−4 customers)"; }
+      }},
+      {label:"🤝 Team up and share customers", fx:()=>{
+        S.tomorrowMod.cust = -1;
+        S.tomorrowMod.note = "🤝 You and Max became friends! He sends you customers who like YOUR recipe. (only −1 customer, and a new pal!)";
+      }},
+      {label:"🙅 Do nothing", fx:()=>{
+        S.tomorrowMod.cust = -4;
+        S.tomorrowMod.note = "🧢 Max grabbed some of your customers today. (−4 customers)";
+      }}
+    ]});
+
+  pool.push({ // ants
+    emo:"🐜🐜🐜",
+    text:"ANTS! A whole ant parade is marching toward your sugar supplies!",
+    choices:[
+      {label:"🧹 Stay up late and clean everything ($1 for soap)", fx:()=>{
+        if(S.cash>=1){ S.cash-=1; S.tomorrowMod.note="🧼 Sparkling clean! The ants moved on. Supplies safe!"; }
+        else { antsEat(); }
+      }},
+      {label:"😪 Deal with it tomorrow", fx:()=>antsEat()}
+    ]});
+
+  pool.push({ // celebrity
+    emo:"🌟🎤",
+    text:"A famous singer is visiting town tomorrow and posted: 'I LOVE lemonade!' Crowds are coming!",
+    choices:[
+      {label:"🍋 Get ready for a BIG day!", fx:()=>{
+        S.tomorrowMod.mult = 2;
+        S.tomorrowMod.note = "🌟 The famous singer's fans are everywhere, DOUBLE customers today! Do you have enough cups?!";
+      }}
+    ]});
+
+  pool.push({ // grandma
+    emo:"👵💝",
+    text:"Grandma stops by! 'I'm so proud of my little boss,' she says. 'Here's a tip: save some money for a rainy day!' She gives you $3!",
+    choices:[
+      {label:"🏦 Put Grandma's $3 in the jar", fx:()=>{ S.jar+=3; S.tomorrowMod.note="👵 Grandma's $3 is safe in your Rainy Day Jar. She'd be proud!"; }},
+      {label:"💵 Keep it as cash for shopping", fx:()=>{ S.cash+=3; S.tomorrowMod.note="👵 You kept Grandma's $3 as spending cash."; }}
+    ]});
+
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function dogSmash(){
+  const lost = Math.min(S.cups, 3);
+  S.cups -= lost;
+  S.tomorrowMod.note = "🐕💥 CRASH! The dog knocked over your stand and you lost "+lost+" cups of supplies!";
+}
+function antsEat(){
+  const lost = Math.min(S.cups, 4);
+  S.cups -= lost;
+  S.tomorrowMod.note = "🐜 The ants had a sugar feast! You lost "+lost+" cups of supplies. Yuck!";
+}
+
+function showEvent(ev){
+  $("e-emo").textContent = ev.emo;
+  $("e-text").textContent = ev.text;
+  const col = $("e-choices"); col.innerHTML = "";
+  ev.choices.forEach((c,i)=>{
+    const b = document.createElement("button");
+    b.className = "btn " + (i===0?"green":i===1?"blue":"ghost");
+    b.textContent = c.label;
+    b.onclick = ()=>{ c.fx(); saveGame(); afterEvening(); };
+    col.appendChild(b);
+  });
+  show("scr-event");
+}
+
+/* ================= WEEK REPORT ================= */
+function showWeek(weekNum){
+  const days = S.history.filter(h => weekNum===1 ? h.day<=7 : h.day>7);
+  $("w-num").textContent = weekNum;
+  const rev = days.reduce((a,h)=>a+h.rev,0);
+  const cost = days.reduce((a,h)=>a+h.cost,0);
+  const profit = rev-cost;
+  $("w-rev").textContent = rev;
+  $("w-cost").textContent = cost;
+  const cell = $("w-profit-cell");
+  cell.className = profit>=0 ? "profit-pos":"profit-neg";
+  cell.textContent = (profit<0?"−$":"+$")+Math.abs(profit);
+
+  // chart
+  const chart = $("w-chart"); chart.innerHTML = "";
+  const maxAbs = Math.max(4, ...days.map(h=>Math.abs(h.profit)));
+  days.forEach(h=>{
+    const wrap = document.createElement("div"); wrap.className = "bar-wrap";
+    const val = document.createElement("div"); val.className="bar-val";
+    val.textContent = (h.profit<0?"−$":"$")+Math.abs(h.profit);
+    val.style.color = h.profit>=0 ? "#1e9950":"#ff5b6e";
+    const bar = document.createElement("div");
+    bar.className = "bar"+(h.profit<0?" neg":"");
+    bar.style.height = "6px";
+    const lbl = document.createElement("div"); lbl.className="bar-lbl";
+    lbl.textContent = "Day "+h.day+" "+WX[h.wx].emo;
+    wrap.appendChild(val); wrap.appendChild(bar); wrap.appendChild(lbl);
+    chart.appendChild(wrap);
+    requestAnimationFrame(()=>{ bar.style.height = Math.max(6, Math.abs(h.profit)/maxAbs*110)+"px"; });
+  });
+
+  // badges
+  const badges = [];
+  if(profit >= 20) badges.push("💰 Money Master");
+  if(S.jar >= 10) badges.push("🏦 Super Saver");
+  if(days.every(h=>h.profit>=0) && days.length) badges.push("📈 No-Loss Boss");
+  if(days.some(h=>h.sold>=15)) badges.push("🔥 Sell-Out Star");
+  badges.forEach(b=>{ if(!S.badges.includes(b)) S.badges.push(b); });
+  $("w-badges").innerHTML = badges.map(b=>'<span class="badge">'+b+'</span>').join("") ||
+    '<span class="hint">No badges this week, go get some! 💪</span>';
+
+  const best = days.reduce((a,h)=>h.profit>a.profit?h:a, days[0]||{profit:0});
+  $("w-lesson").innerHTML = days.length
+    ? "📊 Your best day was <b>Day "+best.day+"</b> ("+WX[best.wx].emo+") with <b>$"+best.profit+" profit</b>. What made it great? Weather? Price? Supplies? Great bosses look for patterns!"
+    : "";
+  $("btn-week-next").textContent = weekNum===1 ? "➡️ On to Week 2!" : "🏆 See final results!";
+  saveGame();
+  show("scr-week");
+}
+$("btn-week-next").onclick = ()=>{
+  if(S.day >= 14){ showFinal(); } else { nextDay(); }
+};
+
+/* ================= FINAL ================= */
+function showFinal(){
+  const total = S.cash + S.jar;
+  $("f-cash").textContent = S.cash;
+  $("f-jar").textContent = S.jar;
+  $("f-total").textContent = total;
+  $("f-cups").textContent = S.totalCups;
+  $("f-profit").textContent = (S.totalProfit<0?"−":"")+Math.abs(S.totalProfit);
+  let stars, text;
+  if(total >= 70){ stars="⭐⭐⭐⭐⭐"; text="LEMONADE LEGEND! You turned $20 into $"+total+"! Businesses everywhere want your secrets!"; }
+  else if(total >= 50){ stars="⭐⭐⭐⭐"; text="Amazing tycoon! You grew your $20 into $"+total+"!"; }
+  else if(total >= 35){ stars="⭐⭐⭐"; text="Solid boss moves! $20 became $"+total+". You made real profit!"; }
+  else if(total >= 20){ stars="⭐⭐"; text="You kept your business alive, $"+total+" total. Next time, watch that weather!"; }
+  else { stars="⭐"; text="Ended with $"+total+". Business is tough! Try saving in the jar and matching supplies to the forecast."; }
+  $("f-stars").textContent = stars;
+  $("f-text").textContent = text;
+  $("f-badges").innerHTML = S.badges.map(b=>'<span class="badge">'+b+'</span>').join("");
+  clearSave();
+  show("scr-final");
+}
+
+/* ================= SAFETY NET ================= */
+// If anything ever throws unexpectedly, don't leave the player on a dead screen.
+window.addEventListener("error", function(e){
+  try{
+    if(dayInProgress && !_finished){ forceFinish(); return; }
+    toast("Oops, hiccup fixed! Your progress is saved. 👍");
+  }catch(_){}
+});
+window.addEventListener("unhandledrejection", function(){
+  try{ if(dayInProgress && !_finished) forceFinish(); }catch(_){}
+});
+
+/* ================= BOOT ================= */
+initTitle();
+</script>
+</body>
+</html>

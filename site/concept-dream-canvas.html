@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept: Dream Canvas | Jake Diego</title>
+<meta name="description" content="Design concept: Dream Canvas, a generative design studio where variations bloom while you watch. Illustrative data only.">
+<meta property="og:title" content="Concept: Dream Canvas | Jake Diego">
+<meta property="og:description" content="Design concept: Dream Canvas, a generative design studio where variations bloom while you watch. Illustrative data only.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jakediego.com/concept-dream-canvas.html">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="futuristic.css">
+<style>
+  body.fx-body{--fx-accent-a:#ff5cd0; --fx-accent-b:#9b5cff; --fx-accent-c:#5cf0ff;}
+  .fx-aurora .blob.b1{width:46vw;height:46vw;left:-11%;top:-12%;background:radial-gradient(circle, var(--fx-accent-a), transparent 70%);}
+  .fx-aurora .blob.b2{width:42vw;height:42vw;right:-9%;top:7%;background:radial-gradient(circle, var(--fx-accent-b), transparent 70%);animation-delay:-6s;}
+  .fx-aurora .blob.b3{width:38vw;height:38vw;left:22%;bottom:-17%;background:radial-gradient(circle, var(--fx-accent-c), transparent 70%);animation-delay:-12s;}
+  .fx-eyebrow .dot{background:var(--fx-accent-a);color:var(--fx-accent-a);}
+  .fx-btn.primary{background:linear-gradient(120deg, var(--fx-accent-a), var(--fx-accent-b));color:#fff;}
+  .fx-btn.primary:hover{box-shadow:0 8px 30px -6px rgba(255,92,208,0.5);}
+  .fx-card .fx-icon{background:linear-gradient(135deg, rgba(255,92,208,0.2), rgba(155,92,255,0.15));}
+
+  #fx-canvas-hero{position:absolute;inset:-40px 0 0 0;width:100%;height:calc(100% + 40px);z-index:0;}
+
+  .dc-panel{
+    background:var(--fx-glass);border:1px solid var(--fx-glass-line);border-radius:18px;
+    padding:28px;backdrop-filter:blur(14px);margin:30px 0;
+    display:grid;grid-template-columns:minmax(220px,0.9fr) minmax(280px,1.3fr);gap:28px;align-items:center;
+  }
+  @media (max-width:760px){.dc-panel{grid-template-columns:1fr;}}
+
+  /* Morphing generative blob */
+  .dc-blob-stage{position:relative;width:100%;max-width:280px;aspect-ratio:1;margin:0 auto;}
+  .dc-blob{
+    position:absolute;inset:8%;
+    background:linear-gradient(130deg, var(--fx-accent-a), var(--fx-accent-b) 50%, var(--fx-accent-c));
+    animation:dc-morph 11s ease-in-out infinite, dc-hue 16s linear infinite;
+    filter:blur(1px) saturate(1.2);
+    opacity:0.9;
+  }
+  .dc-blob.echo{
+    inset:2%;opacity:0.22;filter:blur(16px);
+    animation-delay:-4s, -6s;
+  }
+  @keyframes dc-morph{
+    0%,100%{border-radius:58% 42% 55% 45% / 48% 60% 40% 52%;transform:rotate(0deg) scale(1);}
+    25%{border-radius:45% 55% 40% 60% / 60% 42% 58% 40%;transform:rotate(6deg) scale(1.04);}
+    50%{border-radius:62% 38% 58% 42% / 42% 55% 45% 58%;transform:rotate(-4deg) scale(0.97);}
+    75%{border-radius:40% 60% 48% 52% / 55% 45% 60% 40%;transform:rotate(3deg) scale(1.02);}
+  }
+  @keyframes dc-hue{
+    0%{filter:blur(1px) saturate(1.2) hue-rotate(0deg);}
+    100%{filter:blur(1px) saturate(1.2) hue-rotate(360deg);}
+  }
+  .dc-blob-cap{text-align:center;color:var(--fx-ink-dim);font-size:0.8rem;margin-top:12px;}
+
+  /* Prompt bar + generating tiles */
+  .dc-prompt{
+    display:flex;align-items:center;gap:10px;
+    border:1px solid var(--fx-glass-line);border-radius:12px;
+    padding:13px 16px;background:rgba(0,0,0,0.25);
+    font-size:0.9rem;color:var(--fx-ink-dim);
+  }
+  .dc-prompt .caret{
+    display:inline-block;width:2px;height:1.05em;background:var(--fx-accent-c);
+    animation:dc-caret 1.1s steps(1) infinite;vertical-align:text-bottom;
+  }
+  @keyframes dc-caret{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+  .dc-dots span{
+    display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--fx-accent-a);margin-left:4px;
+    animation:dc-bounce 1.2s ease-in-out infinite;
+  }
+  .dc-dots span:nth-child(2){animation-delay:0.15s;background:var(--fx-accent-b);}
+  .dc-dots span:nth-child(3){animation-delay:0.3s;background:var(--fx-accent-c);}
+  @keyframes dc-bounce{
+    0%,100%{transform:translateY(0);opacity:0.5;}
+    50%{transform:translateY(-5px);opacity:1;}
+  }
+  .dc-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;}
+  @media (max-width:560px){.dc-tiles{grid-template-columns:repeat(2,1fr);}}
+  .dc-tile{
+    aspect-ratio:1;border-radius:12px;position:relative;overflow:hidden;
+    border:1px solid var(--fx-glass-line);
+  }
+  .dc-tile .fill{position:absolute;inset:0;}
+  .dc-tile.t1 .fill{background:linear-gradient(140deg, #ff5cd0, #9b5cff);animation:dc-hue 12s linear infinite;}
+  .dc-tile.t2 .fill{background:linear-gradient(200deg, #9b5cff, #5cf0ff);animation:dc-hue 12s linear -3s infinite;}
+  .dc-tile.t3 .fill, .dc-tile.t4 .fill{
+    background:linear-gradient(110deg, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.16) 46%, rgba(255,255,255,0.05) 60%);
+    background-size:220% 100%;
+    animation:dc-shimmer 1.8s linear infinite;
+  }
+  .dc-tile.t4 .fill{animation-delay:-0.7s;}
+  @keyframes dc-shimmer{from{background-position:120% 0;}to{background-position:-120% 0;}}
+  .dc-tile .tag{
+    position:absolute;left:8px;bottom:8px;font-size:0.66rem;letter-spacing:0.06em;
+    text-transform:uppercase;color:rgba(255,255,255,0.85);
+    background:rgba(0,0,0,0.4);border-radius:6px;padding:3px 7px;backdrop-filter:blur(4px);
+  }
+  .dc-note{color:var(--fx-ink-dim);font-size:0.78rem;margin-top:16px;opacity:0.8;}
+</style>
+</head>
+<body class="fx-body">
+
+<div class="fx-aurora">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<nav class="fx-nav">
+  <div class="fx-wrap">
+    <div class="fx-brand">Jake Diego<span style="color:var(--fx-accent-a);">.</span></div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="lab.html">Lab</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="fx-wrap">
+    <section class="fx-hero" style="position:relative;">
+      <canvas id="fx-canvas-hero"></canvas>
+      <div style="position:relative;z-index:1;">
+        <div class="fx-eyebrow fx-reveal"><span class="dot"></span>Concept &middot; creative tools</div>
+        <h1 class="fx-reveal d1">A studio where the material is still wet.</h1>
+        <p class="fx-lede fx-reveal d2">A design concept for a generative creative tool: describe a
+          direction, watch variations bloom, and keep the ones worth keeping. The interface itself
+          should feel like the work in progress.</p>
+        <div class="fx-reveal d3">
+          <a class="fx-btn primary" href="mailto:pvegasrentals@gmail.com">Get in touch</a>
+          <a class="fx-btn" href="projects.html">See real projects</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="fx-glow-line"></div>
+
+    <section class="fx-section">
+      <h2>Variations that bloom while you watch</h2>
+      <p class="fx-section-lede">A concept view of a generation session: a living preview that never
+        sits still, a prompt mid-thought, and a batch of variations arriving two at a time.</p>
+
+      <div class="dc-panel fx-reveal">
+        <div>
+          <div class="dc-blob-stage">
+            <div class="dc-blob echo"></div>
+            <div class="dc-blob"></div>
+          </div>
+          <div class="dc-blob-cap">Living preview: the current idea, still moving</div>
+        </div>
+        <div>
+          <div class="dc-prompt">
+            <span>warm dusk palette, soft geometry, a little bolder<span class="caret"></span></span>
+            <span class="dc-dots" style="margin-left:auto;flex:none;"><span></span><span></span><span></span></span>
+          </div>
+          <div class="dc-tiles">
+            <div class="dc-tile t1"><div class="fill"></div><span class="tag">Variation 1</span></div>
+            <div class="dc-tile t2"><div class="fill"></div><span class="tag">Variation 2</span></div>
+            <div class="dc-tile t3"><div class="fill"></div><span class="tag">Rendering</span></div>
+            <div class="dc-tile t4"><div class="fill"></div><span class="tag">Rendering</span></div>
+          </div>
+          <div class="dc-note">Illustrative concept only. The prompt and variations are invented
+            example content from a made-up tool.</div>
+        </div>
+      </div>
+
+      <div class="fx-stat-row">
+        <div class="fx-stat fx-reveal"><span class="fx-num" style="background:linear-gradient(120deg,var(--fx-accent-a),var(--fx-accent-c));-webkit-background-clip:text;background-clip:text;color:transparent;">Iterative</span><span class="fx-label">every output is a starting point, not a verdict</span></div>
+        <div class="fx-stat fx-reveal d1"><span class="fx-num" style="background:linear-gradient(120deg,var(--fx-accent-a),var(--fx-accent-c));-webkit-background-clip:text;background-clip:text;color:transparent;">Side by side</span><span class="fx-label">variations compared in one glance, not one at a time</span></div>
+        <div class="fx-stat fx-reveal d2"><span class="fx-num" style="background:linear-gradient(120deg,var(--fx-accent-a),var(--fx-accent-c));-webkit-background-clip:text;background-clip:text;color:transparent;">Yours to keep</span><span class="fx-label">the artist picks; the tool only proposes</span></div>
+      </div>
+    </section>
+
+    <section class="fx-section">
+      <h2>What this concept explores</h2>
+      <div class="fx-grid">
+        <div class="fx-card fx-reveal">
+          <div class="fx-icon">&#127912;</div>
+          <h3>The tool has a temperature</h3>
+          <p>Creative software can feel warm and alive instead of clinical. Motion and color do the
+            welcoming.</p>
+        </div>
+        <div class="fx-card fx-reveal d1">
+          <div class="fx-icon">&#128172;</div>
+          <h3>Direction over commands</h3>
+          <p>You steer with plain language ("a little bolder") and the tool translates intent into
+            variations.</p>
+        </div>
+        <div class="fx-card fx-reveal d2">
+          <div class="fx-icon">&#9203;</div>
+          <h3>Waiting made honest</h3>
+          <p>Generation takes time, so the wait is part of the design: shimmer means working, arrival
+            feels earned.</p>
+        </div>
+        <div class="fx-card fx-reveal d3">
+          <div class="fx-icon">&#128278;</div>
+          <h3>Nothing precious is lost</h3>
+          <p>Every variation stays retrievable, so exploring a wild direction never risks the good one
+            you already had.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="fx-glow-line"></div>
+
+    <section class="fx-section">
+      <h2>A concept, not a claim</h2>
+      <p class="fx-section-lede">This page is a design exploration of a generative creative tool. For
+        real, shipped systems with measured outcomes, see the projects page.</p>
+      <a class="fx-btn primary" href="projects.html">View real projects &rarr;</a>
+    </section>
+
+    <section class="fx-more">
+      <div class="fx-more-label">More concepts</div>
+      <div class="fx-more-row">
+        <a href="concept-ai-systems.html">AI Systems</a>
+        <a href="concept-data-intelligence.html">Data Intelligence</a>
+        <a href="concept-flow-studio.html">Flow Studio</a>
+        <a href="concept-sentinel.html">Sentinel Grid</a>
+        <a href="concept-nest-planner.html">Nest Planner</a>
+        <a class="current" href="concept-dream-canvas.html">Dream Canvas</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="fx-footer">
+  <div class="fx-wrap">
+    <div>Built by Jake Diego.</div>
+    <div><a href="mailto:pvegasrentals@gmail.com">pvegasrentals@gmail.com</a></div>
+  </div>
+</footer>
+
+<script src="futuristic.js"></script>
+<script>
+  FX.initParticles('fx-canvas-hero', {count: 48, color: '255,92,208'});
+</script>
+</body>
+</html>
