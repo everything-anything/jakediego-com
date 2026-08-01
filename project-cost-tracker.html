@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project: Price History Tracker | Jake Diego</title>
+<meta name="description" content="Project: a price history tracker that stitches every price sheet into one self-refreshing time series. Built in a day.">
+<meta property="og:title" content="Project: Price History Tracker | Jake Diego">
+<meta property="og:description" content="Project: a price history tracker that stitches every price sheet into one self-refreshing time series. Built in a day.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jakediego.com/project-cost-tracker.html">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="futuristic.css">
+<style>
+  body.fx-body{--fx-accent-a:#f5c84c; --fx-accent-b:#6fdc8c; --fx-accent-c:#5ca8ff;}
+  .fx-aurora .blob.b1{width:44vw;height:44vw;left:-9%;top:-12%;background:radial-gradient(circle, var(--fx-accent-a), transparent 70%);}
+  .fx-aurora .blob.b2{width:40vw;height:40vw;right:-9%;top:8%;background:radial-gradient(circle, var(--fx-accent-b), transparent 70%);animation-delay:-8s;}
+  .fx-aurora .blob.b3{width:36vw;height:36vw;left:24%;bottom:-16%;background:radial-gradient(circle, var(--fx-accent-c), transparent 70%);animation-delay:-14s;}
+  .fx-eyebrow .dot{background:var(--fx-accent-a);color:var(--fx-accent-a);}
+  .fx-btn.primary{background:linear-gradient(120deg, var(--fx-accent-a), var(--fx-accent-b));}
+  .fx-btn.primary:hover{box-shadow:0 8px 30px -6px rgba(245,200,76,0.5);}
+  .fx-card .fx-icon{background:linear-gradient(135deg, rgba(245,200,76,0.2), rgba(111,220,140,0.14));}
+
+  .pt-panel{
+    background:var(--fx-glass);border:1px solid var(--fx-glass-line);border-radius:18px;
+    padding:28px;backdrop-filter:blur(14px);margin:30px 0;
+  }
+  .pt-rows{display:flex;flex-direction:column;gap:18px;}
+  .pt-row{
+    display:grid;grid-template-columns:1.4fr 1fr auto;gap:18px;align-items:center;
+    padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.03);
+  }
+  .pt-row .name{font-weight:600;}
+  .pt-row .sub{color:var(--fx-ink-dim);font-size:0.8rem;margin-top:2px;}
+  .pt-spark{width:100%;height:44px;}
+  .pt-spark path.line{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+  .pt-spark circle{r:3;}
+  .pt-move{
+    font-weight:700;font-size:0.95rem;text-align:right;white-space:nowrap;
+    padding:6px 12px;border-radius:999px;
+  }
+  .pt-move.up{color:#6fdc8c;background:rgba(111,220,140,0.12);}
+  .pt-dates{display:flex;justify-content:space-between;color:var(--fx-ink-dim);font-size:0.72rem;margin-top:14px;}
+  .pt-note{color:var(--fx-ink-dim);font-size:0.78rem;margin-top:16px;opacity:0.8;}
+  @media (max-width:640px){
+    .pt-row{grid-template-columns:1fr;text-align:left;}
+    .pt-move{text-align:left;}
+  }
+</style>
+</head>
+<body class="fx-body">
+
+<div class="fx-aurora">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<nav class="fx-nav">
+  <div class="fx-wrap">
+    <div class="fx-brand">Jake Diego<span style="color:var(--fx-accent-a);">.</span></div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="lab.html">Lab</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="fx-wrap">
+    <section class="fx-hero">
+      <div class="fx-eyebrow fx-reveal"><span class="dot"></span>Project &middot; procurement</div>
+      <h1 class="fx-reveal d1">Every price sheet, stitched into one time series.</h1>
+      <p class="fx-lede fx-reveal d2">Built for a small coffee roaster that gets a new green-bean price
+        sheet from its supplier every couple of weeks, each one a standalone spreadsheet snapshot with
+        no memory of the last one. This tool turns that pile of snapshots into one running history, so a
+        price move shows up the moment the next sheet lands.</p>
+      <div class="fx-reveal d3">
+        <a class="fx-btn primary" href="mailto:pvegasrentals@gmail.com">Get in touch</a>
+        <a class="fx-btn" href="projects.html">See other projects</a>
+      </div>
+    </section>
+
+    <div class="fx-glow-line"></div>
+
+    <section class="fx-section">
+      <h2>The problem</h2>
+      <p class="fx-section-lede">A new price file lands every biweekly delivery cycle: same layout,
+        same columns, but a fresh standalone workbook with no link back to the last one. Watching one
+        bean's cost drift over a quarter meant opening a dozen files by hand and eyeballing a single
+        row in each.</p>
+    </section>
+
+    <section class="fx-section">
+      <h2>The fix: one self-refreshing history</h2>
+      <p class="fx-section-lede">A folder-watching data pipeline scans every price sheet dropped into
+        one folder, reads the run date off each one, stamps it onto every item row, and stacks all of
+        it into a single dated table. Dropping in a new sheet and clicking refresh is the entire
+        maintenance workflow, no copy-paste, no reformatting.</p>
+
+      <div class="pt-panel fx-reveal">
+        <div class="pt-rows">
+
+          <div class="pt-row">
+            <div>
+              <div class="name">Ethiopian Yirgacheffe, green</div>
+              <div class="sub">$6.20 &rarr; $6.95 / lb over 4 price runs</div>
+            </div>
+            <svg class="pt-spark" viewBox="0 0 100 44" preserveAspectRatio="none">
+              <path class="line" d="M4,36 L34,30 L66,20 L96,6" stroke="url(#pt-grad-a)"></path>
+              <circle cx="4" cy="36" fill="#f5c84c"></circle>
+              <circle cx="34" cy="30" fill="#f5c84c"></circle>
+              <circle cx="66" cy="20" fill="#6fdc8c"></circle>
+              <circle cx="96" cy="6" fill="#6fdc8c"></circle>
+            </svg>
+            <div class="pt-move up">+12.1%</div>
+          </div>
+
+          <div class="pt-row">
+            <div>
+              <div class="name">Guatemala Antigua, green</div>
+              <div class="sub">$5.90 &rarr; $6.40 / lb over 4 price runs</div>
+            </div>
+            <svg class="pt-spark" viewBox="0 0 100 44" preserveAspectRatio="none">
+              <path class="line" d="M4,22 L34,25 L66,14 L96,4" stroke="url(#pt-grad-a)"></path>
+              <circle cx="4" cy="22" fill="#f5c84c"></circle>
+              <circle cx="34" cy="25" fill="#f5c84c"></circle>
+              <circle cx="66" cy="14" fill="#6fdc8c"></circle>
+              <circle cx="96" cy="4" fill="#6fdc8c"></circle>
+            </svg>
+            <div class="pt-move up">+8.5%</div>
+          </div>
+
+          <div class="pt-row">
+            <div>
+              <div class="name">Sumatra Mandheling, green</div>
+              <div class="sub">$5.40 &rarr; $5.70 / lb over 4 price runs</div>
+            </div>
+            <svg class="pt-spark" viewBox="0 0 100 44" preserveAspectRatio="none">
+              <path class="line" d="M4,20 L34,10 L66,14 L96,4" stroke="url(#pt-grad-b)"></path>
+              <circle cx="4" cy="20" fill="#5ca8ff"></circle>
+              <circle cx="34" cy="10" fill="#5ca8ff"></circle>
+              <circle cx="66" cy="14" fill="#6fdc8c"></circle>
+              <circle cx="96" cy="4" fill="#6fdc8c"></circle>
+            </svg>
+            <div class="pt-move up">+5.6%</div>
+          </div>
+
+          <div class="pt-row">
+            <div>
+              <div class="name">House Blend, roasted</div>
+              <div class="sub">$4.10 &rarr; $4.45 / lb over 4 price runs</div>
+            </div>
+            <svg class="pt-spark" viewBox="0 0 100 44" preserveAspectRatio="none">
+              <path class="line" d="M4,30 L34,27 L66,14 L96,4" stroke="url(#pt-grad-b)"></path>
+              <circle cx="4" cy="30" fill="#5ca8ff"></circle>
+              <circle cx="34" cy="27" fill="#5ca8ff"></circle>
+              <circle cx="66" cy="14" fill="#6fdc8c"></circle>
+              <circle cx="96" cy="4" fill="#6fdc8c"></circle>
+            </svg>
+            <div class="pt-move up">+8.5%</div>
+          </div>
+
+          <div class="pt-row">
+            <div>
+              <div class="name">Colombian Supremo, green</div>
+              <div class="sub">$4.80 &rarr; $5.05 / lb over 4 price runs</div>
+            </div>
+            <svg class="pt-spark" viewBox="0 0 100 44" preserveAspectRatio="none">
+              <path class="line" d="M4,18 L34,16 L66,12 L96,4" stroke="url(#pt-grad-c)"></path>
+              <circle cx="4" cy="18" fill="#f5c84c"></circle>
+              <circle cx="34" cy="16" fill="#f5c84c"></circle>
+              <circle cx="66" cy="12" fill="#6fdc8c"></circle>
+              <circle cx="96" cy="4" fill="#6fdc8c"></circle>
+            </svg>
+            <div class="pt-move up">+5.2%</div>
+          </div>
+
+        </div>
+        <div class="pt-dates"><span>Run 1</span><span>Run 2</span><span>Run 3</span><span>Run 4</span></div>
+        <div class="pt-note">Illustrative data: item names, dates, and dollar figures shown are invented
+          examples that mirror the shape of a real deployment, not a real supplier's numbers.</div>
+
+        <svg width="0" height="0" style="position:absolute;">
+          <defs>
+            <linearGradient id="pt-grad-a" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#f5c84c"/><stop offset="1" stop-color="#6fdc8c"/>
+            </linearGradient>
+            <linearGradient id="pt-grad-b" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#5ca8ff"/><stop offset="1" stop-color="#6fdc8c"/>
+            </linearGradient>
+            <linearGradient id="pt-grad-c" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#f5c84c"/><stop offset="1" stop-color="#5ca8ff"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="fx-stat-row">
+        <div class="fx-stat fx-reveal"><span class="fx-num" style="background:linear-gradient(120deg,var(--fx-accent-a),var(--fx-accent-b));-webkit-background-clip:text;background-clip:text;color:transparent;">One click</span><span class="fx-label">drop a new sheet in the folder, refresh, the history updates itself</span></div>
+        <div class="fx-stat fx-reveal d1"><span class="fx-num" style="background:linear-gradient(120deg,var(--fx-accent-a),var(--fx-accent-b));-webkit-background-clip:text;background-clip:text;color:transparent;">Item-level</span><span class="fx-label">every bean's full price history, not just the latest sheet</span></div>
+        <div class="fx-stat fx-reveal d2"><span class="fx-num" style="background:linear-gradient(120deg,var(--fx-accent-a),var(--fx-accent-b));-webkit-background-clip:text;background-clip:text;color:transparent;">Zero copy-paste</span><span class="fx-label">no manual reformatting between price runs, ever again</span></div>
+      </div>
+    </section>
+
+    <section class="fx-section">
+      <h2>How it works</h2>
+      <div class="fx-grid">
+        <div class="fx-card fx-reveal">
+          <div class="fx-icon">&#128193;</div>
+          <h3>Folder-watch ingestion</h3>
+          <p>Points at one shared folder and picks up every matching price sheet automatically, no
+            code changes when a new one shows up.</p>
+        </div>
+        <div class="fx-card fx-reveal d1">
+          <div class="fx-icon">&#128197;</div>
+          <h3>Auto date-stamping</h3>
+          <p>Reads the run date off each sheet and stamps it onto every item row, turning standalone
+            snapshots into a true time series.</p>
+        </div>
+        <div class="fx-card fx-reveal d2">
+          <div class="fx-icon">&#128200;</div>
+          <h3>One item, every date</h3>
+          <p>A dedicated view slices the combined history by item, so a single bean's cost across
+            every run is visible at a glance.</p>
+        </div>
+        <div class="fx-card fx-reveal d3">
+          <div class="fx-icon">&#9989;</div>
+          <h3>Self-cleaning</h3>
+          <p>Blank layout rows, duplicate downloads, and the tracker file itself are filtered out
+            automatically, so the history stays clean.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="fx-glow-line"></div>
+
+    <section class="fx-section">
+      <h2>A real tool, built in a day</h2>
+      <p class="fx-section-lede">This shipped as a working workbook, not a mockup: a folder-driven data
+        pipeline plus three ready-made views (by item, by date, by price), built on top of a
+        spreadsheet the owner already knew how to use.</p>
+      <a class="fx-btn primary" href="projects.html">View other projects &rarr;</a>
+    </section>
+  </div>
+</main>
+
+<footer class="fx-footer">
+  <div class="fx-wrap">
+    <div>Built by Jake Diego.</div>
+    <div><a href="mailto:pvegasrentals@gmail.com">pvegasrentals@gmail.com</a></div>
+  </div>
+</footer>
+
+<script src="futuristic.js"></script>
+</body>
+</html>
