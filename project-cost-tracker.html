@@ -4,11 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Project: Price History Tracker | Jake Diego</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2220%27 fill=%27%234fa8ff%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2760%27 font-family=%27Arial,sans-serif%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%230b0d12%27%3EJ%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Project: a price history tracker that stitches every price sheet into one self-refreshing time series. Built in a day.">
 <meta property="og:title" content="Project: Price History Tracker | Jake Diego">
 <meta property="og:description" content="Project: a price history tracker that stitches every price sheet into one self-refreshing time series. Built in a day.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jakediego.com/project-cost-tracker.html">
+<link rel="canonical" href="https://jakediego.com/project-cost-tracker.html">
 <meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="futuristic.css">
 <style>
@@ -42,6 +44,12 @@
   .pt-move.up{color:#6fdc8c;background:rgba(111,220,140,0.12);}
   .pt-dates{display:flex;justify-content:space-between;color:var(--fx-ink-dim);font-size:0.72rem;margin-top:14px;}
   .pt-note{color:var(--fx-ink-dim);font-size:0.78rem;margin-top:16px;opacity:0.8;}
+  .pt-combined{margin-top:20px;}
+  .pt-combined h3{margin:0 0 4px;font-size:1rem;color:var(--fx-ink);}
+  .pt-combined-chart{width:100%;height:auto;display:block;margin-top:14px;}
+  .pt-combined-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:0.78rem;color:var(--fx-ink-dim);}
+  .pt-combined-legend .item{display:flex;align-items:center;gap:6px;}
+  .pt-combined-legend .sw{width:9px;height:9px;border-radius:2px;flex:none;}
   @media (max-width:640px){
     .pt-row{grid-template-columns:1fr;text-align:left;}
     .pt-move{text-align:left;}
@@ -182,6 +190,49 @@
         <div class="pt-note">Illustrative data: item names, dates, and dollar figures shown are invented
           examples that mirror the shape of a real deployment, not a real supplier's numbers.</div>
 
+        <div class="pt-combined">
+          <h3>All five items, one view</h3>
+          <p class="pt-note" style="margin-top:0;">Same four price runs as the rows above, plotted
+            together so a buyer can see which beans are moving fastest relative to the others, not
+            just each one alone.</p>
+          <svg class="pt-combined-chart" viewBox="0 0 640 260" role="img" aria-label="Price per pound across four price runs for five coffee items">
+            <line x1="40" y1="226" x2="620" y2="226" stroke="var(--fx-glass-line)" stroke-width="1"></line>
+            <line x1="40" y1="157.3" x2="620" y2="157.3" stroke="var(--fx-glass-line)" stroke-width="1"></line>
+            <line x1="40" y1="88.7" x2="620" y2="88.7" stroke="var(--fx-glass-line)" stroke-width="1"></line>
+            <line x1="40" y1="20" x2="620" y2="20" stroke="var(--fx-glass-line)" stroke-width="1"></line>
+            <text x="32" y="230" text-anchor="end" fill="var(--fx-ink-dim)" font-size="10">$4</text>
+            <text x="32" y="161" text-anchor="end" fill="var(--fx-ink-dim)" font-size="10">$5</text>
+            <text x="32" y="92" text-anchor="end" fill="var(--fx-ink-dim)" font-size="10">$6</text>
+            <text x="32" y="24" text-anchor="end" fill="var(--fx-ink-dim)" font-size="10">$7</text>
+            <text x="40" y="248" text-anchor="middle" fill="var(--fx-ink-dim)" font-size="10">Run 1</text>
+            <text x="233.3" y="248" text-anchor="middle" fill="var(--fx-ink-dim)" font-size="10">Run 2</text>
+            <text x="426.7" y="248" text-anchor="middle" fill="var(--fx-ink-dim)" font-size="10">Run 3</text>
+            <text x="620" y="248" text-anchor="middle" fill="var(--fx-ink-dim)" font-size="10">Run 4</text>
+
+            <polyline points="40,74.9 233.3,64.6 426.7,47.5 620,23.4" fill="none" stroke="#f5c84c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            <circle cx="40" cy="74.9" r="3" fill="#f5c84c"></circle><circle cx="233.3" cy="64.6" r="3" fill="#f5c84c"></circle><circle cx="426.7" cy="47.5" r="3" fill="#f5c84c"></circle><circle cx="620" cy="23.4" r="4" fill="#f5c84c"></circle>
+
+            <polyline points="40,95.5 233.3,101.0 426.7,80.4 620,61.2" fill="none" stroke="#6fdc8c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            <circle cx="40" cy="95.5" r="3" fill="#6fdc8c"></circle><circle cx="233.3" cy="101.0" r="3" fill="#6fdc8c"></circle><circle cx="426.7" cy="80.4" r="3" fill="#6fdc8c"></circle><circle cx="620" cy="61.2" r="4" fill="#6fdc8c"></circle>
+
+            <polyline points="40,129.9 233.3,116.8 426.7,122.3 620,109.3" fill="none" stroke="#5ca8ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            <circle cx="40" cy="129.9" r="3" fill="#5ca8ff"></circle><circle cx="233.3" cy="116.8" r="3" fill="#5ca8ff"></circle><circle cx="426.7" cy="122.3" r="3" fill="#5ca8ff"></circle><circle cx="620" cy="109.3" r="4" fill="#5ca8ff"></circle>
+
+            <polyline points="40,219.1 233.3,216.4 426.7,204.0 620,195.1" fill="none" stroke="#ff8f6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            <circle cx="40" cy="219.1" r="3" fill="#ff8f6b"></circle><circle cx="233.3" cy="216.4" r="3" fill="#ff8f6b"></circle><circle cx="426.7" cy="204.0" r="3" fill="#ff8f6b"></circle><circle cx="620" cy="195.1" r="4" fill="#ff8f6b"></circle>
+
+            <polyline points="40,171.1 233.3,168.4 426.7,163.6 620,153.9" fill="none" stroke="#b18cf0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            <circle cx="40" cy="171.1" r="3" fill="#b18cf0"></circle><circle cx="233.3" cy="168.4" r="3" fill="#b18cf0"></circle><circle cx="426.7" cy="163.6" r="3" fill="#b18cf0"></circle><circle cx="620" cy="153.9" r="4" fill="#b18cf0"></circle>
+          </svg>
+          <div class="pt-combined-legend">
+            <span class="item"><span class="sw" style="background:#f5c84c;"></span>Ethiopian Yirgacheffe &middot; $6.95/lb</span>
+            <span class="item"><span class="sw" style="background:#6fdc8c;"></span>Guatemala Antigua &middot; $6.40/lb</span>
+            <span class="item"><span class="sw" style="background:#5ca8ff;"></span>Sumatra Mandheling &middot; $5.70/lb</span>
+            <span class="item"><span class="sw" style="background:#ff8f6b;"></span>House Blend &middot; $4.45/lb</span>
+            <span class="item"><span class="sw" style="background:#b18cf0;"></span>Colombian Supremo &middot; $5.05/lb</span>
+          </div>
+        </div>
+
         <svg width="0" height="0" style="position:absolute;">
           <defs>
             <linearGradient id="pt-grad-a" x1="0" y1="0" x2="1" y2="0">
@@ -243,6 +294,22 @@
         spreadsheet the owner already knew how to use.</p>
       <a class="fx-btn primary" href="projects.html">View other projects &rarr;</a>
     </section>
+
+    <section class="fx-section">
+      <h2>Related systems</h2>
+      <p class="fx-section-lede"><a href="case-study-ops-platform.html">Customer-Success Command
+        Center</a> &middot; a command center that replaced five spreadsheets with one screen and
+        credited $30,590 in retained revenue.</p>
+      <p class="fx-section-lede"><a href="case-study-market-intel.html">Market Intelligence
+        Pipeline</a> &middot; an automated four-stage pipeline that turns raw public data into a
+        ranked opportunity list.</p>
+      <p class="fx-section-lede"><a href="case-study-ai-visibility.html">AI-Visibility Audit</a>
+        &middot; a structured audit run on this very site to make it findable, trusted, and quotable
+        by AI answer engines.</p>
+      <p class="fx-section-lede"><a href="case-study-video-doc.html">Video-to-Documentation
+        Pipeline</a> &middot; turns one monthly walkthrough recording into four polished, branded
+        release documents automatically.</p>
+    </section>
   </div>
 </main>
 
@@ -253,6 +320,5 @@
   </div>
 </footer>
 
-<script src="futuristic.js"></script>
 </body>
 </html>

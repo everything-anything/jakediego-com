@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Study: Video-to-Documentation Pipeline | Jake Diego</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2220%27 fill=%27%234fa8ff%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2760%27 font-family=%27Arial,sans-serif%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%230b0d12%27%3EJ%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Case study: a pipeline that turns one monthly walkthrough recording into four polished, branded release documents automatically.">
+<meta property="og:title" content="Case Study: Video-to-Documentation Pipeline | Jake Diego">
+<meta property="og:description" content="Case study: a pipeline that turns one monthly walkthrough recording into four polished, branded release documents automatically.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jakediego.com/case-study-video-doc.html">
+<link rel="canonical" href="https://jakediego.com/case-study-video-doc.html">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "A pipeline that turns one monthly recording into four branded release documents",
+  "author": {"@type": "Person", "name": "Jake Diego"}
+}
+</script>
+<style>
+  .cs-section{margin:48px 0;}
+  .cs-section h2{font-size:1.5rem;margin:0 0 14px;letter-spacing:-0.01em;}
+  .cs-section p{color:var(--ink-dim);max-width:720px;}
+
+  .vd-flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin:26px 0;}
+  .vd-node{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:18px 20px;min-width:170px;flex:1 1 170px;text-align:center;
+  }
+  .vd-node .t{font-size:0.95rem;font-weight:600;color:var(--ink);}
+  .vd-node .s{font-size:0.8rem;color:#6b7180;margin-top:5px;}
+  .vd-node .badge{
+    display:inline-block;margin-top:9px;font-size:0.68rem;font-weight:700;color:var(--accent-soft);
+    background:rgba(255,122,69,0.1);border:1px solid rgba(255,122,69,0.28);border-radius:999px;
+    padding:2px 9px;letter-spacing:0.05em;text-transform:uppercase;
+  }
+  .vd-node.origin{border-color:var(--accent-dim);background:rgba(255,122,69,0.08);}
+  .vd-node.origin .t{color:var(--accent-soft);}
+  .vd-arrow{display:flex;align-items:center;justify-content:center;color:#6b7180;font-size:1.4rem;padding:0 12px;flex:0 0 auto;}
+  .vd-out{display:flex;flex-direction:column;gap:12px;flex:1 1 260px;justify-content:center;}
+  .vd-deliverable{
+    padding:16px 18px 18px;text-align:left;border:1px solid var(--line);border-radius:10px;
+    background:var(--panel);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+  }
+  .vd-deliverable:hover{transform:translateY(-2px);border-color:var(--accent-dim);box-shadow:0 6px 18px rgba(0,0,0,0.4);}
+  .vd-deliverable .meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px;}
+  .vd-deliverable .t{font-size:0.95rem;font-weight:600;}
+  .vd-deliverable .fact{font-size:0.74rem;color:var(--accent-soft);font-weight:700;font-family:ui-monospace,SFMono-Regular,"SF Mono",Consolas,monospace;}
+  .vd-deliverable .s{font-size:0.8rem;color:#6b7180;margin-top:2px;}
+
+  .doc-preview{position:relative;height:56px;margin-bottom:4px;}
+  .doc-preview .sheet{
+    position:absolute;top:0;left:9px;right:9px;height:48px;background:var(--bg-soft);
+    border:1px solid var(--line);border-radius:3px;
+  }
+  .doc-preview.pdf .sheet:nth-child(1){transform:translate(4px,7px);opacity:0.5;}
+  .doc-preview.pdf .sheet:nth-child(2){transform:translate(2px,3.5px);opacity:0.75;}
+  .doc-preview.pdf .sheet:nth-child(3){transform:translate(0,0);display:flex;flex-direction:column;gap:4px;padding:7px 8px;}
+  .doc-preview.pdf .sheet:nth-child(3) i{display:block;height:2px;border-radius:1px;background:var(--line);}
+  .doc-preview.pdf .sheet:nth-child(3) i:nth-child(1){width:60%;background:var(--accent-dim);}
+  .doc-preview.pdf .sheet:nth-child(3) i:nth-child(2){width:90%;}
+  .doc-preview.pdf .sheet:nth-child(3) i:nth-child(3){width:80%;}
+  .doc-preview.pdf .sheet:nth-child(3) i:nth-child(4){width:85%;}
+
+  .doc-preview.html .sheet{left:0;right:0;height:52px;display:flex;flex-direction:column;overflow:hidden;}
+  .doc-preview.html .browser-bar{height:13px;background:var(--panel);display:flex;align-items:center;gap:3px;padding:0 7px;border-bottom:1px solid var(--line);flex:none;}
+  .doc-preview.html .browser-bar span{width:4px;height:4px;border-radius:50%;background:var(--line);}
+  .doc-preview.html .browser-body{flex:1;padding:6px 8px;display:flex;flex-direction:column;gap:4px;}
+  .doc-preview.html .browser-body i{display:block;height:2px;border-radius:1px;background:var(--line);}
+  .doc-preview.html .browser-body i.step{background:var(--accent-dim);width:35%;}
+  .doc-preview.html .browser-body i:nth-child(2){width:85%;}
+  .doc-preview.html .browser-body i:nth-child(3){width:70%;}
+
+  .doc-preview.poster{display:flex;justify-content:center;}
+  .doc-preview.poster .sheet{
+    position:static;width:38px;height:52px;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:4px;padding:6px;
+  }
+  .doc-preview.poster .sheet i{display:block;width:70%;height:2px;border-radius:1px;background:var(--line);}
+  .doc-preview.poster .sheet .dot{width:11px;height:11px;border-radius:50%;background:rgba(255,122,69,0.35);margin-bottom:3px;}
+
+  @media (max-width:720px){
+    .vd-flow{flex-direction:column;}
+    .vd-arrow{transform:rotate(90deg);padding:8px 0;}
+    .vd-out{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Jake Diego<span>.</span></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="lab.html">Lab</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero" style="margin-top:0;padding-bottom:8px;">
+      <span style="display:inline-block;color:var(--accent-soft);font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px;">Case study</span>
+      <h1>One recording in, four branded documents out</h1>
+      <p class="lede">A monthly release used to mean re-writing the same walkthrough four different
+        ways by hand: a detailed guide, a click-through version, a role matrix, and a poster. Now it
+        means recording the walkthrough once.</p>
+    </section>
+
+    <section class="cs-section" style="margin-top:8px;">
+      <h2>What problem does this pipeline solve?</h2>
+      <p>Every release needed the same information rebuilt four times in four formats, and every
+        rebuild was a fresh chance to drift from what was actually said in the walkthrough.</p>
+      <p>A recorded walkthrough is the one place the "why" behind a change actually gets explained out
+        loud, but that explanation used to die in the recording. Turning it into documentation meant
+        someone re-watching the video and manually writing a detailed guide, then a separate
+        interactive version, then a role-assignment reference, then a printable summary, each one a
+        fresh chance for a detail to get dropped or a step to drift from what was actually said.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2>What does the pipeline produce?</h2>
+      <p>One recording, transcribed and worked once, branches into four deliverables that all trace
+        back to the same source material.</p>
+      <div class="vd-flow">
+        <div class="vd-node origin">
+          <div class="t">Monthly walkthrough</div>
+          <div class="s">1 recording &middot; ~12 min</div>
+          <span class="badge">source</span>
+        </div>
+        <div class="vd-arrow">&rarr;</div>
+        <div class="vd-out">
+          <div class="vd-deliverable">
+            <div class="doc-preview pdf"><div class="sheet"></div><div class="sheet"></div>
+              <div class="sheet"><i></i><i></i><i></i><i></i></div></div>
+            <div class="meta"><div class="t">Detailed guide</div><div class="fact">Full detail</div></div>
+            <div class="s">PDF &middot; every step plus the why, screenshots inline</div>
+          </div>
+          <div class="vd-deliverable">
+            <div class="doc-preview html"><div class="sheet">
+              <div class="browser-bar"><span></span><span></span><span></span></div>
+              <div class="browser-body"><i class="step"></i><i></i><i></i></div>
+            </div></div>
+            <div class="meta"><div class="t">Interactive guide</div><div class="fact">Step-by-step</div></div>
+            <div class="s">HTML &middot; click-through checklist, progress saved</div>
+          </div>
+          <div class="vd-deliverable">
+            <div class="doc-preview html"><div class="sheet">
+              <div class="browser-bar"><span></span><span></span><span></span></div>
+              <div class="browser-body"><i class="step"></i><i></i><i></i></div>
+            </div></div>
+            <div class="meta"><div class="t">Reassign-strategies guide</div><div class="fact">Role matrix</div></div>
+            <div class="s">HTML &middot; role matrix, who does what when accounts move</div>
+          </div>
+          <div class="vd-deliverable">
+            <div class="doc-preview poster"><div class="sheet"><div class="dot"></div><i></i><i></i><i></i></div></div>
+            <div class="meta"><div class="t">Poster</div><div class="fact">1 pg</div></div>
+            <div class="s">PDF &middot; single-page wall reference, print-ready</div>
+          </div>
+        </div>
+      </div>
+      <p>Because all four trace back to the same transcript, they can't drift from each other the way
+        four independently hand-written documents eventually do.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2>What results has it produced?</h2>
+      <div class="stat-band">
+        <div class="stat">
+          <span class="num">4 deliverables</span>
+          <span class="label">generated per release from a single recording</span>
+        </div>
+        <div class="stat">
+          <span class="num">1 source</span>
+          <span class="label">transcript worked once, instead of four separate rewrites</span>
+        </div>
+        <div class="stat">
+          <span class="num">0 drift</span>
+          <span class="label">between formats, since every deliverable traces back to the same transcript</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <h2>Tech approach</h2>
+      <p>Built in Python: a transcript-extraction stage pulls the spoken walkthrough and its screen
+        content out of the recording, then a templated document-generation stage renders that same
+        source material into each of the four output formats. Every deliverable ships from one
+        pipeline run, not four separate manual passes.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2>Related systems</h2>
+      <p><a href="case-study-ops-platform.html">Customer-Success Command Center</a> &middot; a command
+        center that replaced five spreadsheets with one screen and credited $30,590 in retained
+        revenue.</p>
+      <p><a href="case-study-market-intel.html">Market Intelligence Pipeline</a> &middot; an automated
+        four-stage pipeline that turns raw public data into a ranked opportunity list.</p>
+      <p><a href="project-cost-tracker.html">Price History Tracker</a> &middot; stitches every price
+        sheet into one self-refreshing time series, built in a day.</p>
+      <p><a href="case-study-ai-visibility.html">AI-Visibility Audit</a> &middot; a structured audit run
+        on this very site to make it findable, trusted, and quotable by AI answer engines.</p>
+    </section>
+
+    <section class="cs-section">
+      <p><a class="btn ghost" href="projects.html">Back to projects</a></p>
+    </section>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div>Built by Jake Diego.</div>
+    <div><a href="mailto:pvegasrentals@gmail.com">pvegasrentals@gmail.com</a></div>
+  </div>
+</footer>
+</body>
+</html>

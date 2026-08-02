@@ -4,11 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects | Jake Diego</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2220%27 fill=%27%234fa8ff%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2760%27 font-family=%27Arial,sans-serif%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%230b0d12%27%3EJ%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Systems Jake Diego has built: command-center dashboards, automation pipelines, support bots, and documentation engines, each with measured results.">
 <meta property="og:title" content="Projects | Jake Diego">
 <meta property="og:description" content="Systems Jake Diego has built: command-center dashboards, automation pipelines, support bots, and documentation engines, each with measured results.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jakediego.com/projects.html">
+<link rel="canonical" href="https://jakediego.com/projects.html">
 <meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -55,11 +57,36 @@
         </div>
 
         <div class="card">
+          <h3>AI-visibility audit (AEO / GEO)</h3>
+          <p>A structured, multi-stage audit of how well a site is positioned to be found, trusted, and
+            quoted by AI answer engines, run on this very site: it found the machine-readable gaps and
+            shipped the fixes.</p>
+          <div class="impact">Six-stage audit: 4 domain passes, 2 validations, 2 expert-debate rounds, GO verdict</div>
+          <div class="stack">Multi-agent audit pipeline, schema.org / JSON-LD, robots.txt and sitemap, FAQ and comparison content</div>
+          <p style="margin-top:12px;"><a href="case-study-ai-visibility.html">Read the full case study &rarr;</a></p>
+        </div>
+
+        <div class="card card--wide">
           <h3>Email drafting with voice calibration</h3>
           <p>Drafts outbound customer emails automatically, then learns from a person's edits so the
             drafts converge on their actual writing voice over time.</p>
           <div class="impact">Measured 45.9% run-time reduction on the drafting pipeline (shadow corpus, live confirm pending)</div>
           <div class="stack">Python, a calibration loop, prompt-based drafting</div>
+          <div class="pv-chart-wrap">
+            <svg viewBox="0 0 500 170" width="100%" style="min-width:320px;" role="img" aria-label="Edits per batch across six calibration loops, trending from 4 down to 0">
+              <text x="20" y="16" class="pv-axis-label">Edits per batch of 5 drafts</text>
+              <polyline points="20,33.3 112,60 204,86.7 296,86.7 388,113.3 480,140" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              <circle cx="20" cy="33.3" r="3" fill="var(--accent)"></circle>
+              <circle cx="112" cy="60" r="3" fill="var(--accent)"></circle>
+              <circle cx="204" cy="86.7" r="3" fill="var(--accent)"></circle>
+              <circle cx="296" cy="86.7" r="3" fill="var(--accent)"></circle>
+              <circle cx="388" cy="113.3" r="3" fill="var(--accent)"></circle>
+              <circle cx="480" cy="140" r="5" fill="var(--good)"></circle>
+              <text x="20" y="158" class="pv-axis-label">Loop 1</text>
+              <text x="480" y="158" text-anchor="end" class="pv-axis-label">Loop 6</text>
+              <text x="480" y="128" text-anchor="end" class="pv-data-label" fill="var(--good)">0 edits by Loop 6</text>
+            </svg>
+          </div>
         </div>
 
         <div class="card">
@@ -68,6 +95,7 @@
             it actually retains, so the team's impact is a number, not a narrative.</p>
           <div class="impact">$30,590 in retained revenue credited to the workflow (21 retained customers)</div>
           <div class="stack">Python, a spreadsheet-backed ledger, event sourcing</div>
+          <p style="margin-top:12px;"><a href="case-study-ops-platform.html">See the outcome breakdown &rarr;</a></p>
         </div>
 
         <div class="card">
@@ -80,12 +108,23 @@
           <p style="margin-top:12px;"><a href="project-cost-tracker.html">See the project &rarr;</a></p>
         </div>
 
-        <div class="card">
+        <div class="card card--wide">
           <h3>Data-entry / form-fill automation</h3>
           <p>Automates a repetitive multi-field data-entry task that previously required manual
             copy-paste across systems.</p>
           <div class="impact">Measured 73% time reduction on the form-fill step (shadow corpus, live confirm pending)</div>
           <div class="stack">Python, browser automation, a dry-run verification harness</div>
+          <div class="pv-compare">
+            <div class="pv-compare-row">
+              <div class="label">Manual, per record <b>4.5 min</b></div>
+              <div class="pv-bar-track"><div class="pv-bar-fill manual" style="width:100%;"></div></div>
+            </div>
+            <div class="pv-compare-row">
+              <div class="label">Automated, per record <b>1.2 min</b></div>
+              <div class="pv-bar-track"><div class="pv-bar-fill auto" style="width:27%;"></div></div>
+            </div>
+            <span class="pv-reduction-tag">&#9660; 73% faster, shadow corpus</span>
+          </div>
         </div>
 
         <div class="card">
@@ -94,14 +133,18 @@
             branded release documents automatically.</p>
           <div class="impact">4 deliverables generated per release: detailed guide, interactive guide, a reassign-strategies guide, and a poster</div>
           <div class="stack">Python, transcript extraction, templated document generation</div>
+          <p style="margin-top:12px;"><a href="case-study-video-doc.html">Read the full case study &rarr;</a></p>
         </div>
 
         <div class="card">
-          <h3>Discord support bot</h3>
-          <p>A chat-based support bot backed by a real knowledge base, so common questions get
-            answered instantly and correctly instead of waiting on a person.</p>
-          <div class="impact">1 bot, built across a 6-stage pipeline, backed by a maintained knowledge base</div>
-          <div class="stack">Python, a knowledge-base index, Discord integration</div>
+          <h3>AI customer-service agent</h3>
+          <p>A chat agent that lives where customers already are (starting with Discord) and runs
+            the whole front line of customer service. It walks new customers through onboarding step
+            by step, answers support questions instantly from a maintained knowledge base, points
+            people to the right channel or resource, and hands off cleanly to a human when a
+            question needs one.</p>
+          <div class="impact">Onboarding, support, and everyday customer service in one agent, backed by a maintained knowledge base</div>
+          <div class="stack">Python, a knowledge-base index, chat-platform integration (Discord today, extendable to others)</div>
         </div>
 
         <div class="card">
@@ -128,15 +171,41 @@
           <div class="stack">Native desktop app</div>
         </div>
 
-        <div class="card">
+        <div class="card card--wide">
           <h3>Skill / automation framework</h3>
           <p>A framework for turning a manual process, once it's been done a few times by hand, into
             a repeatable, validated automated skill.</p>
           <div class="impact"></div>
           <div class="stack">Modular task specs, a validation gate for each new automated skill</div>
+          <div class="pv-flow">
+            <div class="pv-flow-node">
+              <div class="t">Manual process</div>
+              <div class="s">done by hand, a few times</div>
+            </div>
+            <div class="pv-flow-arrow">&rarr;</div>
+            <div class="pv-flow-node">
+              <div class="t">Validated pattern</div>
+              <div class="s">steps confirmed repeatable</div>
+            </div>
+            <div class="pv-flow-arrow">&rarr;</div>
+            <div class="pv-flow-node origin">
+              <div class="t">Automated skill</div>
+              <div class="s">runs itself, gated before shipping</div>
+            </div>
+          </div>
         </div>
 
       </div>
+    </section>
+
+    <section class="case-study" style="text-align:center;margin-top:40px;">
+      <span class="tag">Free systems audit</span>
+      <h3 style="font-size:1.5rem;">See what any of this would look like for your business</h3>
+      <p class="section-lede" style="margin:0 auto 22px;">Walk me through the manual process that eats
+        the most of your team's week. In a free 30-minute audit I'll tell you honestly whether software
+        can fix it, what I'd build, and what it would cost. No obligation, and every project ships with
+        a measured before/after.</p>
+      <a class="btn primary" href="index.html#contact">Request the free audit &rarr;</a>
     </section>
   </div>
 </main>

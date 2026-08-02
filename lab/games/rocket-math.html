@@ -121,10 +121,15 @@
   #soundBtn{position:fixed;top:12px;right:14px;z-index:120;font-size:14px;}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
   @media (max-width:560px){.skyCol{width:80px;min-width:80px;} .heroRocket{margin-top:-40px;} #countNum{font-size:70px;}}
+  h1,.tagline,.hint,#problem,#feedback{overflow-wrap:break-word;word-break:break-word;}
+  .backlink{position:fixed;top:12px;left:14px;z-index:120;font-size:14px;color:#cfd8ff;background:#232b5e;
+    border-radius:12px;padding:6px 12px;text-decoration:none;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,.3);}
+  .backlink:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
 <div id="stars"></div>
+<a class="backlink" href="../../lab.html">&#8592; Lab</a>
 <button class="btn ghost sm" id="soundBtn" onclick="toggleSound()">🔊 Sound on</button>
 
 <!-- ============ MENU ============ -->

@@ -4,13 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Case Study: Market Intelligence Pipeline | Jake Diego</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2220%27 fill=%27%234fa8ff%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2760%27 font-family=%27Arial,sans-serif%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%230b0d12%27%3EJ%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Case study: an automated four-stage market intelligence pipeline that turns raw public data into a ranked opportunity list.">
 <meta property="og:title" content="Case Study: Market Intelligence Pipeline | Jake Diego">
 <meta property="og:description" content="Case study: an automated four-stage market intelligence pipeline that turns raw public data into a ranked opportunity list.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jakediego.com/case-study-market-intel.html">
+<link rel="canonical" href="https://jakediego.com/case-study-market-intel.html">
 <meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "An automated pipeline that turns raw market data into a ranked opportunity list",
+  "author": {"@type": "Person", "name": "Jake Diego"}
+}
+</script>
 <style>
   .shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0;}
   .shot img{display:block;width:100%;}
@@ -46,7 +56,8 @@
     </section>
 
     <section class="cs-section" style="margin-top:8px;">
-      <h2>The problem</h2>
+      <h2>Why is manual market research a problem?</h2>
+      <p>It's slow, inconsistent between people, and stale by the time a report is finished.</p>
       <p>Spotting where a market is growing, or where a gap in the competition is opening up, is
         normally a slow, manual research exercise: pull data by hand, eyeball it in a spreadsheet, and
         try to remember to redo the whole thing next quarter. It's inconsistent between people, easy to
@@ -55,7 +66,9 @@
     </section>
 
     <section class="cs-section">
-      <h2>The approach</h2>
+      <h2>How does the market intelligence pipeline work?</h2>
+      <p>It runs four automated stages, collection, scoring, synthesis, ranked output, with no manual
+        pull required.</p>
       <p>An automated, multi-stage pipeline that collects data from public sources on a schedule, scores
         each item for growth signal and competitive gap, synthesizes the results, and produces a ranked
         output automatically, no manual pull required.</p>
@@ -71,7 +84,7 @@
       </div>
 
       <div class="shot">
-        <img src="images/market-intel-dashboard.png" alt="Market intelligence dashboard mockup showing ranked opportunities, trend cards, and collection volume">
+        <img src="images/market-intel-dashboard.png" alt="Market intelligence dashboard mockup showing ranked opportunities, trend cards, and collection volume" width="1440" height="1030" loading="lazy">
       </div>
       <p class="shot-cap">A dashboard view of the pipeline's output: ranked opportunities, trending
         categories, and pipeline volume in one screen.</p>
@@ -110,6 +123,19 @@
         SQLite and exported to a spreadsheet report so the output is easy to hand to a non-technical
         reader. The whole pipeline is designed to run unattended on a schedule and produce a
         ready-to-read report at the end, not a dataset that still needs a human to interpret it.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2>Related systems</h2>
+      <p><a href="case-study-ops-platform.html">Customer-Success Command Center</a> &middot; a command
+        center that replaced five spreadsheets with one screen and credited $30,590 in retained
+        revenue.</p>
+      <p><a href="project-cost-tracker.html">Price History Tracker</a> &middot; stitches every price
+        sheet into one self-refreshing time series, built in a day.</p>
+      <p><a href="case-study-ai-visibility.html">AI-Visibility Audit</a> &middot; a structured audit run
+        on this very site to make it findable, trusted, and quotable by AI answer engines.</p>
+      <p><a href="case-study-video-doc.html">Video-to-Documentation Pipeline</a> &middot; turns one
+        monthly walkthrough recording into four polished, branded release documents automatically.</p>
     </section>
 
     <section class="cs-section">

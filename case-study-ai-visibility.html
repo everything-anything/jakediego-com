@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Study: AI-Visibility Audit of This Site | Jake Diego</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2220%27 fill=%27%234fa8ff%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2760%27 font-family=%27Arial,sans-serif%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%230b0d12%27%3EJ%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Case study: a structured, multi-stage AI-visibility audit run on this very site, finding the machine-readable gaps and shipping the fixes so AI answer engines can find, trust, and quote it correctly.">
+<meta property="og:title" content="Case Study: AI-Visibility Audit of This Site | Jake Diego">
+<meta property="og:description" content="Case study: a structured, multi-stage AI-visibility audit run on this very site, finding the machine-readable gaps and shipping the fixes so AI answer engines can find, trust, and quote it correctly.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jakediego.com/case-study-ai-visibility.html">
+<link rel="canonical" href="https://jakediego.com/case-study-ai-visibility.html">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "An AI-visibility audit of this site: find the gaps, fix them, measure the result",
+  "author": {"@type": "Person", "name": "Jake Diego"}
+}
+</script>
+<style>
+  .cs-section{margin:48px 0;}
+  .cs-section h2{font-size:1.5rem;margin:0 0 14px;letter-spacing:-0.01em;}
+  .cs-section p{color:var(--ink-dim);max-width:720px;}
+  .disclaimer{background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:14px 18px;color:var(--ink-dim);font-size:0.85rem;margin:20px 0;}
+  .av-tiers{display:flex;flex-direction:column;gap:16px;margin:24px 0;}
+  .av-tier-rail{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;}
+  .av-tier-rail .dot{width:7px;height:7px;border-radius:50%;flex:none;}
+  .av-tier-rail .line{flex:1;height:1px;background:var(--line);}
+  .av-tier[data-tier="audit"] .av-tier-rail{color:var(--accent);}
+  .av-tier[data-tier="audit"] .av-tier-rail .dot{background:var(--accent);}
+  .av-tier[data-tier="validate"] .av-tier-rail{color:#e8b74f;}
+  .av-tier[data-tier="validate"] .av-tier-rail .dot{background:#e8b74f;}
+  .av-tier[data-tier="debate"] .av-tier-rail{color:#7cb8e8;}
+  .av-tier[data-tier="debate"] .av-tier-rail .dot{background:#7cb8e8;}
+  .av-stepper{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;}
+  .av-step{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}
+  .av-step:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,0.35);border-color:var(--accent-dim);}
+  .av-step .n{font-size:0.7rem;color:#6b7180;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;}
+  .av-step .l{font-size:0.9rem;font-weight:600;line-height:1.3;}
+  .av-verdict{margin-top:6px;background:rgba(89,212,153,0.1);border:1px solid #59d499;border-radius:14px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .av-verdict .eyebrow{display:block;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#59d499;opacity:0.85;margin-bottom:4px;}
+  .av-verdict .go{font-size:1.55rem;font-weight:800;letter-spacing:-0.02em;color:#59d499;}
+  .av-verdict .check{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-size:0.92rem;font-weight:900;color:var(--bg);background:#59d499;flex:none;}
+  .ba-wrap{overflow-x:auto;margin:20px 0;}
+  .ba-table{width:100%;border-collapse:collapse;font-size:0.92rem;min-width:640px;}
+  .ba-table th,.ba-table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .ba-table th{font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-dim);font-weight:700;}
+  .ba-table td:first-child{font-weight:600;white-space:nowrap;}
+  .ba-before{color:#e0a1a1;}
+  .ba-after{color:#8fd6b0;}
+  .fix-list{list-style:none;padding:0;margin:20px 0;max-width:760px;}
+  .fix-list li{border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:0 0 12px;background:var(--panel);color:var(--ink-dim);font-size:0.92rem;}
+  .fix-list li b{color:var(--accent-soft);display:block;margin-bottom:4px;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em;}
+  .brand-note{border-left:3px solid var(--accent);background:var(--bg-soft);border-radius:0 10px 10px 0;padding:16px 20px;margin:20px 0;color:var(--ink-dim);max-width:760px;}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Jake Diego<span>.</span></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="lab.html">Lab</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero" style="margin-top:0;padding-bottom:8px;">
+      <span style="display:inline-block;color:var(--accent-soft);font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px;">Case study</span>
+      <h1>An AI-visibility audit of this site: find the gaps, fix them, measure the result</h1>
+      <p class="lede">The clearest proof of a capability is using it on yourself. I ran a structured
+        AI-visibility audit on this very site, found where AI answer engines could not read it, and
+        shipped the fixes. Here is the before and after.</p>
+    </section>
+
+    <section class="cs-section" style="margin-top:8px;">
+      <h2>What is an AI-visibility audit, and why run one on your own site?</h2>
+      <p>An AI-visibility audit checks how well a site is positioned to be found, trusted, and accurately
+        quoted by AI answer engines such as ChatGPT, Perplexity, and Google AI Overviews.</p>
+      <p>The finding on this site was specific: strong, citable content sitting on almost no
+        machine-readable plumbing. The writing was already unusually well suited to how AI systems read
+        the web, clean semantic HTML, one heading per page, real and dated figures like the $30,590 in
+        retained revenue. What was missing was the layer those same systems now rely on to decide who to
+        cite: no robots.txt, no sitemap, no schema, no canonical tags. The raw material was excellent and
+        the wiring that carries it to an answer engine was not there.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2>How was the audit run?</h2>
+      <p>As a six-stage multi-agent pipeline built to catch weak claims and invented numbers before they
+        reached a conclusion, not as one reviewer's opinion.</p>
+      <div class="av-tiers">
+        <div class="av-tier" data-tier="audit">
+          <div class="av-tier-rail"><span class="dot"></span>Stage 1 &middot; 4 parallel domain audits<span class="line"></span></div>
+          <div class="av-stepper">
+            <div class="av-step"><div class="n">Domain 1</div><div class="l">AI content indexing</div></div>
+            <div class="av-step"><div class="n">Domain 2</div><div class="l">Vector &amp; embedding readiness</div></div>
+            <div class="av-step"><div class="n">Domain 3</div><div class="l">GEO citation</div></div>
+            <div class="av-step"><div class="n">Domain 4</div><div class="l">AEO snippets &amp; FAQ</div></div>
+          </div>
+        </div>
+        <div class="av-tier" data-tier="validate">
+          <div class="av-tier-rail"><span class="dot"></span>Stage 2 &middot; independent validation<span class="line"></span></div>
+          <div class="av-stepper">
+            <div class="av-step"><div class="n">Validation</div><div class="l">Re-ran every file read and grep from Stage 1, trusting none of its prose</div></div>
+          </div>
+        </div>
+        <div class="av-tier" data-tier="debate">
+          <div class="av-tier-rail"><span class="dot"></span>Stages 3&ndash;5 &middot; expert debate<span class="line"></span></div>
+          <div class="av-stepper">
+            <div class="av-step"><div class="n">Round 1</div><div class="l">Prioritization debate, argued from evidence</div></div>
+            <div class="av-step"><div class="n">Round 2</div><div class="l">Fresh data gathered between rounds, re-argued</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="av-verdict">
+        <div><span class="eyebrow">Stage 6 &middot; final validation gate</span><span class="go">GO</span></div>
+        <span class="check">&#10003;</span>
+      </div>
+      <div class="stat-band">
+        <div class="stat">
+          <span class="num">4 audits</span>
+          <span class="label">independent domain passes, each catching what the others missed</span>
+        </div>
+        <div class="stat">
+          <span class="num">0 invented</span>
+          <span class="label">fabricated or misquoted figures found across all four audits</span>
+        </div>
+        <div class="stat">
+          <span class="num">15 of 15</span>
+          <span class="label">demo pages confirmed to share one identical title, verified in the final gate</span>
+        </div>
+        <div class="stat">
+          <span class="num">GO</span>
+          <span class="label">final gate verdict, with every action item lineaged to a real finding</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <h2>What did the audit find, and what changed?</h2>
+      <p>A strong content foundation with a near-total gap in the machine-readable layer, all of it
+        additive to fix rather than a rewrite. Here is the before and after, domain by domain.</p>
+      <div class="ba-wrap">
+        <table class="ba-table">
+          <thead>
+            <tr><th>Domain</th><th>Before the audit</th><th>After the fixes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Indexing plumbing</td>
+              <td class="ba-before">No robots.txt, no sitemap, no canonical tags</td>
+              <td class="ba-after">robots.txt welcoming ten AI and search crawlers, a focused sitemap, canonical on every page</td>
+            </tr>
+            <tr>
+              <td>Structured data</td>
+              <td class="ba-before">Zero JSON-LD schema anywhere on the site</td>
+              <td class="ba-after">Person, WebSite, Article, and FAQPage schema, with a safe non-invented sameAs</td>
+            </tr>
+            <tr>
+              <td>Number integrity</td>
+              <td class="ba-before">Real $30,590 sat next to an illustrative $60,000 behind a fragile trailing label; a duplicate A/B stat panel shipped twice in raw HTML</td>
+              <td class="ba-after">Illustrative labels front-loaded as the first words, one canonical stat panel</td>
+            </tr>
+            <tr>
+              <td>FAQ and snippets</td>
+              <td class="ba-before">No FAQ, no question-shaped headings</td>
+              <td class="ba-after">Five headings rewritten as questions, a six-question FAQ, matching FAQPage schema</td>
+            </tr>
+            <tr>
+              <td>Comparison framing</td>
+              <td class="ba-before">Nothing named or contrasted an alternative</td>
+              <td class="ba-after">A "How this is different" section with four comparison cards</td>
+            </tr>
+            <tr>
+              <td>Topical clustering</td>
+              <td class="ba-before">Case studies siloed, no sideways links</td>
+              <td class="ba-after">"Related systems" cross-links tying the portfolio into one cluster</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Every figure above traces to a finding confirmed twice against the actual site files. No gap was
+        asserted on faith, and no number was invented to make the story cleaner.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2>What was actually shipped?</h2>
+      <p>Seven focused changes, each one additive and traceable to a confirmed finding.</p>
+      <ul class="fix-list">
+        <li><b>Indexing plumbing</b>Added a robots.txt that explicitly allows ten major AI and search
+          crawlers (including GPTBot, ClaudeBot, PerplexityBot, and Google-Extended), a sitemap covering
+          the real content pages, and a canonical tag on every top-level page.</li>
+        <li><b>Number integrity</b>Front-loaded "Illustrative example, not a verified client outcome" as
+          the literal first words of the example stat block, so a text extractor cannot mistake the
+          illustrative $60,000 for the real $30,590 result.</li>
+        <li><b>A/B panel retired</b>Removed the duplicate stat panel and its picker script so only one
+          canonical set of numbers now ships in the raw HTML.</li>
+        <li><b>Question headings and FAQ</b>Rewrote five declarative headings into question form with a
+          one-sentence lead answer, and added a visible six-question FAQ, all reusing copy already on the
+          page with zero new claims.</li>
+        <li><b>Cross-links</b>Added "Related systems" blocks to the case studies and the cost-tracker so
+          the portfolio reads as one coherent set of measured systems.</li>
+        <li><b>Comparison content</b>Added a "How this is different" section contrasting the approach with
+          agencies, off-the-shelf tools, freelancer marketplaces, and no-code platforms.</li>
+        <li><b>Structured data</b>Added Person and WebSite schema to the homepage, Article schema to each
+          case study, and FAQPage schema paired with the visible FAQ, using an empty-by-honest-default
+          sameAs rather than inventing links.</li>
+      </ul>
+    </section>
+
+    <section class="cs-section">
+      <h2>What is the outcome?</h2>
+      <p>The site is now positioned to be found, trusted, and quoted correctly by AI answer engines,
+        where before it was largely invisible to them.</p>
+      <div class="disclaimer">These fixes shipped recently, so this write-up reports what changed and why,
+        not a traffic or citation result. There is no before-and-after visibility metric to claim yet, and
+        inventing one would defeat the entire point of an audit built to reject unverifiable numbers.</div>
+      <p>What can be said honestly is concrete. An AI crawler that previously had to discover pages by
+        link-luck now has an explicit welcome and a map. An engine assessing who Jake Diego is now has a
+        machine-readable entity to name instead of unstructured text it cannot confidently attribute. And
+        the one figure the whole brand rests on, the real $30,590, is no longer one careless extraction
+        away from being reported as the fictional $60,000. The audit closed on a GO precisely because the
+        upside was high, the risk of change was low, and none of it required rewriting what the site
+        says.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2>How does this fit the rest of the work?</h2>
+      <p>This is one capability demonstrated under the existing "AI ops systems" brand, not a separate
+        service line.</p>
+      <div class="brand-note">The same discipline runs through every system on this site: measured
+        baselines, claims traced to source, and results reported honestly rather than estimated. This
+        audit is that method turned on the site itself, which makes it a working example of the systematic,
+        measured approach rather than a new offering bolted on beside the others.</div>
+    </section>
+
+    <section class="cs-section">
+      <h2>Related systems</h2>
+      <p><a href="case-study-ops-platform.html">Customer-Success Command Center</a> &middot; a command
+        center that replaced five spreadsheets with one screen and credited $30,590 in retained
+        revenue.</p>
+      <p><a href="case-study-market-intel.html">Market Intelligence Pipeline</a> &middot; an automated
+        four-stage pipeline that turns raw public data into a ranked opportunity list.</p>
+      <p><a href="project-cost-tracker.html">Price History Tracker</a> &middot; stitches every price
+        sheet into one self-refreshing time series, built in a day.</p>
+      <p><a href="case-study-video-doc.html">Video-to-Documentation Pipeline</a> &middot; turns one
+        monthly walkthrough recording into four polished, branded release documents automatically.</p>
+    </section>
+
+    <section class="cs-section">
+      <p><a class="btn ghost" href="projects.html">Back to projects</a></p>
+    </section>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div>Built by Jake Diego.</div>
+    <div><a href="mailto:pvegasrentals@gmail.com">pvegasrentals@gmail.com</a></div>
+  </div>
+</footer>
+</body>
+</html>

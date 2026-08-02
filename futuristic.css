@@ -8,6 +8,8 @@
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
+h1,h2,h3,p,a,li,span{overflow-wrap:break-word;word-break:break-word;}
+img{max-width:100%;height:auto;}
 body.fx-body{
   background:var(--fx-bg);
   color:var(--fx-ink);

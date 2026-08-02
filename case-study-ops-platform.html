@@ -4,13 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Case Study: Customer-Success Command Center | Jake Diego</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2220%27 fill=%27%234fa8ff%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2760%27 font-family=%27Arial,sans-serif%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%230b0d12%27%3EJ%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Case study: a customer-success command center that replaced five spreadsheets with one screen and credited $30,590 in retained revenue.">
 <meta property="og:title" content="Case Study: Customer-Success Command Center | Jake Diego">
 <meta property="og:description" content="Case study: a customer-success command center that replaced five spreadsheets with one screen and credited $30,590 in retained revenue.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jakediego.com/case-study-ops-platform.html">
+<link rel="canonical" href="https://jakediego.com/case-study-ops-platform.html">
 <meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "A command center that replaced five spreadsheets with one screen",
+  "author": {"@type": "Person", "name": "Jake Diego"}
+}
+</script>
 <style>
   .shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0;}
   .shot img{display:block;width:100%;}
@@ -30,8 +40,24 @@
   .rv-stat{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg);}
   .rv-stat .num{font-size:1.6rem;font-weight:700;color:var(--accent-soft);display:block;margin-bottom:4px;}
   .rv-stat .label{color:var(--ink-dim);font-size:0.85rem;}
-  .rv-stat .illus{display:block;color:#6b7180;font-size:0.72rem;margin-top:6px;text-transform:uppercase;letter-spacing:0.04em;}
+  .rv-stat .illus{display:block;color:#6b7180;font-size:0.72rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;}
+  .illus-lead{color:#6b7180;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin:0 0 10px;}
   .rv-method{color:var(--ink-dim);font-size:0.88rem;max-width:720px;}
+  .ob-panel{margin:24px 0;}
+  .ob-hero{display:flex;align-items:baseline;gap:12px;margin:0 0 14px;flex-wrap:wrap;}
+  .ob-hero .v{font-size:2.2rem;font-weight:800;letter-spacing:-0.02em;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .ob-hero .l{color:var(--ink-dim);font-size:0.86rem;max-width:360px;line-height:1.35;}
+  .ob-bar{display:flex;height:20px;border-radius:6px;overflow:hidden;background:var(--panel);border:1px solid var(--line);}
+  .ob-seg{height:100%;}
+  .ob-seg.retained{background:var(--accent);}
+  .ob-seg.churned{background:var(--ink-faint);}
+  .ob-seg.open{background:repeating-linear-gradient(135deg, var(--line) 0 3px, var(--panel) 3px 8px);}
+  .ob-legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;font-size:0.85rem;color:var(--ink-dim);}
+  .ob-legend .item{display:flex;align-items:center;gap:7px;}
+  .ob-legend .sw{width:11px;height:11px;border-radius:3px;flex:none;}
+  .ob-legend .sw.retained{background:var(--accent);}
+  .ob-legend .sw.churned{background:var(--ink-faint);}
+  .ob-legend .sw.open{background:repeating-linear-gradient(135deg, var(--line) 0 2px, var(--panel) 2px 5px);border:1px solid var(--line);}
 </style>
 </head>
 <body>
@@ -56,7 +82,9 @@
     </section>
 
     <section class="cs-section" style="margin-top:8px;">
-      <h2>The problem</h2>
+      <h2>What problem does the customer-success command center solve?</h2>
+      <p>It replaces scattered spreadsheets and a Slack channel with one screen that shows which
+        customers need attention today.</p>
       <p>The customer-success team was running on scattered spreadsheets: one for renewals, one for
         onboarding status, one for at-risk flags kept in someone's head and a Slack channel. Nobody
         had a single place to see who needed attention today, and there was no reliable way to answer
@@ -67,12 +95,14 @@
     </section>
 
     <section class="cs-section">
-      <h2>What was built</h2>
+      <h2>What is inside the customer-success command center?</h2>
+      <p>A single dashboard combining customer health, at-risk flags, renewal dates, task assignments,
+        and meeting history.</p>
       <p>A single web dashboard that pulls customer health data, at-risk flags, renewal dates, task
         assignments, and meeting history into one live view. The team opens one tab in the morning
         instead of five spreadsheets and a Slack search.</p>
       <div class="shot">
-        <img src="images/ops-overview.png" alt="Command center overview dashboard screen">
+        <img src="images/ops-overview.png" alt="Command center overview dashboard screen" width="1440" height="900" loading="lazy">
       </div>
       <p class="shot-cap">The overview screen: today's flagged accounts, workload by team member, and
         pipeline health at a glance.</p>
@@ -93,18 +123,20 @@
       </ul>
 
       <div class="shot">
-        <img src="images/ops-churn.png" alt="Churn and at-risk tracking screen">
+        <img src="images/ops-churn.png" alt="Churn and at-risk tracking screen" width="1440" height="900" loading="lazy">
       </div>
       <p class="shot-cap">The at-risk view: every flagged account tracked through to an outcome.</p>
 
       <div class="shot">
-        <img src="images/ops-retention.png" alt="Retention tracking screen">
+        <img src="images/ops-retention.png" alt="Retention tracking screen" width="1440" height="900" loading="lazy">
       </div>
       <p class="shot-cap">Retention tracking: renewals and save attempts in one queue.</p>
     </section>
 
     <section class="cs-section">
-      <h2>Outcomes</h2>
+      <h2>What results did the command center produce?</h2>
+      <p>33 at-risk customers were tracked to a resolved outcome, with 21 retained and $30,590 in
+        credited revenue (example run).</p>
       <div class="disclaimer">The screens above are shown with illustrative example data for a
         fictional company. The metrics below describe the shape and scale of outcomes this kind of
         system produces, not figures from any specific customer.</div>
@@ -126,8 +158,25 @@
           <span class="label">visibility into every account's status, instead of a weekly manual roll-up</span>
         </div>
       </div>
+
+      <div class="ob-panel">
+        <div class="ob-hero"><span class="v mono">$30,590</span><span class="l">credited to the
+          workflow — every dollar traces to a retained account; nothing is credited for churned
+          or still-open ones (example run)</span></div>
+        <div class="ob-bar" role="img" aria-label="33 at-risk accounts tracked: 21 retained, 4 churned, 8 still open">
+          <div class="ob-seg retained" style="width:63.6%;"></div>
+          <div class="ob-seg churned" style="width:12.1%;"></div>
+          <div class="ob-seg open" style="width:24.3%;"></div>
+        </div>
+        <div class="ob-legend">
+          <span class="item"><span class="sw retained"></span>21 retained &middot; $30,590 credited</span>
+          <span class="item"><span class="sw churned"></span>4 churned &middot; $0 credited</span>
+          <span class="item"><span class="sw open"></span>8 open &middot; still pending</span>
+        </div>
+      </div>
+
       <div class="shot">
-        <img src="images/ops-value-roi.png" alt="Value and ROI ledger screen">
+        <img src="images/ops-value-roi.png" alt="Value and ROI ledger screen" width="1440" height="900" loading="lazy">
       </div>
       <p class="shot-cap">The value/ROI ledger: retained revenue credited directly to the workflow that
         saved it.</p>
@@ -154,21 +203,22 @@
           <span><i style="background:var(--accent);"></i>After (weekly churn, workflow live)</span>
         </div>
 
+        <p class="illus-lead">Illustrative example, not a verified client outcome:</p>
         <div class="rv-stats">
           <div class="rv-stat">
+            <span class="illus">Illustrative data</span>
             <span class="num">24</span>
             <span class="label">at-risk customers retained by the workflow</span>
-            <span class="illus">Illustrative data</span>
           </div>
           <div class="rv-stat">
+            <span class="illus">Illustrative data</span>
             <span class="num">$60,000</span>
             <span class="label">retained revenue (24 customers x $2,500 avg lifetime value)</span>
-            <span class="illus">Illustrative data</span>
           </div>
           <div class="rv-stat">
+            <span class="illus">Illustrative data</span>
             <span class="num">46 hrs</span>
             <span class="label">manual tracking and follow-up hours saved per month</span>
-            <span class="illus">Illustrative data</span>
           </div>
         </div>
 
@@ -190,6 +240,18 @@
         a specific tracked outcome, not an estimate.</p>
       <p>The goal throughout was to build something the team would actually open every morning, not a
         reporting tool that gets checked once a quarter.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2>Related systems</h2>
+      <p><a href="case-study-market-intel.html">Market Intelligence Pipeline</a> &middot; an automated
+        four-stage pipeline that turns raw public data into a ranked opportunity list.</p>
+      <p><a href="project-cost-tracker.html">Price History Tracker</a> &middot; stitches every price
+        sheet into one self-refreshing time series, built in a day.</p>
+      <p><a href="case-study-ai-visibility.html">AI-Visibility Audit</a> &middot; a structured audit run
+        on this very site to make it findable, trusted, and quotable by AI answer engines.</p>
+      <p><a href="case-study-video-doc.html">Video-to-Documentation Pipeline</a> &middot; turns one
+        monthly walkthrough recording into four polished, branded release documents automatically.</p>
     </section>
 
     <section class="cs-section">

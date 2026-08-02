@@ -51,12 +51,16 @@
   .big { font-size:clamp(40px,12vw,90px); margin:6px 0; }
   .stars { font-size:42px; letter-spacing:6px; }
   .hint { text-align:center; color:#777; font-size:14px; margin-top:6px; }
+  h1,h2,.sub,.howto,.hint,.title,.feedback,.big { overflow-wrap:break-word; word-break:break-word; }
+  .backlink { display:inline-block; margin:6px 0 0; font-size:14px; color:#ff5d8f; text-decoration:none; font-weight:bold; }
+  .backlink:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
 <div class="wrap">
+  <a class="backlink" href="../../lab.html">&#8592; Back to the Lab</a>
   <h1>Kitchen Match-Up!</h1>
-  <p class="sub">Follow each arrow &mdash; drag the right word onto the blank!</p>
+  <p class="sub">Follow each arrow, drag the right word onto the blank!</p>
 
   <div id="startScreen" class="card center">
     <p class="big">&#127859;&#129379;</p>
@@ -75,7 +79,7 @@
     <div class="title" id="cabName"></div>
     <p class="howto"><span class="badge" id="levelInfo">Picture 1 of 5</span> Drag the right word onto each blank, then press <b>Check</b>.</p>
     <div class="bank" id="bank"></div>
-    <div class="stage" id="stage"><img class="photo" id="photo" alt="kitchen"></div>
+    <div class="stage" id="stage"><img class="photo" id="photo" alt="Kitchen cabinet or drawer scene for the current matching level"></div>
     <div class="feedback" id="feedback"></div>
     <button class="btn" id="checkBtn" disabled>Check Answers &#10003;</button>
     <button class="btn hidden" id="nextBtn">Next &#9654;</button>
@@ -88,7 +92,7 @@
     <div class="stars" id="stars"></div>
     <p style="font-size:30px;font-weight:bold;margin:8px 0;" id="finalScore"></p>
     <p style="font-size:18px;color:#555;" id="recap"></p>
-    <p class="hint">&#128247; This is the score screen &mdash; take your screenshot now!</p>
+    <p class="hint">&#128247; This is the score screen, take your screenshot now!</p>
     <button class="btn" id="playAgainBtn">Play Again &#8635;</button>
   </div>
 </div>
@@ -116,7 +120,7 @@ function loadLevel(){
   $('checkBtn').classList.remove('hidden'); $('checkBtn').disabled=true;
 
   const stage=$('stage'); stage.querySelectorAll('.target').forEach(t=>t.remove());
-  const img=$('photo'); img.src=lv.img;
+  const img=$('photo'); img.src=lv.img; img.alt=lv.name+' kitchen scene with labeled blanks to match';
 
   // number blanks in reading order
   const blanks=lv.blanks.map((b,i)=>({...b,i})).sort((a,b)=> (a.y-b.y) || (a.x-b.x));
