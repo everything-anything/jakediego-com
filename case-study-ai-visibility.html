@@ -10,8 +10,11 @@
 <meta property="og:description" content="Case study: a structured, multi-stage AI-visibility audit run on this very site, finding the machine-readable gaps and shipping the fixes so AI answer engines can find, trust, and quote it correctly.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jakediego.com/case-study-ai-visibility.html">
+<meta property="og:image" content="https://jakediego.com/images/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <link rel="canonical" href="https://jakediego.com/case-study-ai-visibility.html">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {
@@ -39,12 +42,12 @@
   .av-stepper{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;}
   .av-step{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}
   .av-step:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,0.35);border-color:var(--accent-dim);}
-  .av-step .n{font-size:0.7rem;color:#6b7180;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;}
+  .av-step .n{font-size:0.7rem;color:#8a91ab;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;}
   .av-step .l{font-size:0.9rem;font-weight:600;line-height:1.3;}
-  .av-verdict{margin-top:6px;background:rgba(89,212,153,0.1);border:1px solid #59d499;border-radius:14px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-  .av-verdict .eyebrow{display:block;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#59d499;opacity:0.85;margin-bottom:4px;}
-  .av-verdict .go{font-size:1.55rem;font-weight:800;letter-spacing:-0.02em;color:#59d499;}
-  .av-verdict .check{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-size:0.92rem;font-weight:900;color:var(--bg);background:#59d499;flex:none;}
+  .av-verdict{margin-top:6px;background:rgba(34,224,200,0.1);border:1px solid var(--good);border-radius:14px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .av-verdict .eyebrow{display:block;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--good);opacity:0.85;margin-bottom:4px;}
+  .av-verdict .go{font-size:1.55rem;font-weight:800;letter-spacing:-0.02em;color:var(--good);}
+  .av-verdict .check{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-size:0.92rem;font-weight:900;color:var(--bg);background:var(--good);flex:none;}
   .ba-wrap{overflow-x:auto;margin:20px 0;}
   .ba-table{width:100%;border-collapse:collapse;font-size:0.92rem;min-width:640px;}
   .ba-table th,.ba-table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
@@ -66,6 +69,7 @@
       <a href="index.html">Home</a>
       <a href="projects.html">Projects</a>
       <a href="lab.html">Lab</a>
+      <a href="index.html#contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -135,7 +139,7 @@
         </div>
         <div class="stat">
           <span class="num">15 of 15</span>
-          <span class="label">demo pages confirmed to share one identical title, verified in the final gate</span>
+          <span class="label">demo pages re-checked in the final gate, confirming the duplicate-title finding before it was fixed</span>
         </div>
         <div class="stat">
           <span class="num">GO</span>

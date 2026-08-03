@@ -1,0 +1,18 @@
+# Jake Diego
+
+Jake Diego builds AI operations systems: command-center dashboards, automation pipelines, support bots, and SOP engines. Every result is measured, not estimated, and every project ships with a before/after.
+
+## Key pages
+
+- [Home](https://jakediego.com/): overview of what Jake builds, how a project works, measured results, and the free systems audit.
+- [Projects](https://jakediego.com/projects.html): flagship measured systems plus a workshop of daily-use tools, each with an honest impact note.
+- [Case study: ops platform](https://jakediego.com/case-study-ops-platform.html): a customer-success command center that replaced five spreadsheets with one screen, with retained-revenue measurement.
+- [Case study: market intel](https://jakediego.com/case-study-market-intel.html): a market-intelligence workflow that turns scattered research into one refreshing view.
+- [Case study: video documentation](https://jakediego.com/case-study-video-doc.html): turning walkthrough videos into branded step-by-step guides.
+- [Case study: AI visibility](https://jakediego.com/case-study-ai-visibility.html): a self-referential answer-engine visibility audit run on this very site.
+- [Project: price history tracker](https://jakediego.com/project-cost-tracker.html): a tool that stitches every price sheet into one self-refreshing time series.
+- [Lab](https://jakediego.com/lab.html): experiments and works in progress.
+
+## A note on data
+
+The demo pages under /demo/ and the concept pages (concept-*.html) use fictional or illustrative data only, and are labeled as such on each page. Every number presented as a real result elsewhere on the site traces to a logged, verified measurement.

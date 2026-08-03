@@ -10,9 +10,35 @@
 <meta property="og:description" content="Systems Jake Diego has built: command-center dashboards, automation pipelines, support bots, and documentation engines, each with measured results.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jakediego.com/projects.html">
+<meta property="og:image" content="https://jakediego.com/images/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <link rel="canonical" href="https://jakediego.com/projects.html">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="style.css">
+<style>
+  .section-head{margin:0 0 4px;font-size:1.35rem;}
+  .section-note{margin:0 0 18px;max-width:60ch;opacity:.78;font-size:.95rem;line-height:1.5;}
+  .proj-group + .proj-group{margin-top:48px;}
+
+  /* Bento layout: Flagship cards read larger, Workshop cards tighter. */
+  .proj-group:first-of-type .card{padding:28px;}
+  .proj-group:first-of-type .card h3{font-size:1.25rem;}
+  .proj-group + .proj-group .card{padding:20px;}
+  .proj-group + .proj-group .card h3{font-size:1.05rem;}
+  .proj-group + .proj-group .card p{font-size:0.94rem;}
+  @media (min-width:900px){
+    .proj-group:first-of-type .grid{
+      grid-template-columns:repeat(6,minmax(0,1fr));
+      grid-auto-flow:dense;
+      gap:20px;
+    }
+    .proj-group:first-of-type .grid .card{grid-column:span 2;}
+    .proj-group:first-of-type .grid .card:first-child,
+    .proj-group:first-of-type .grid .card.card--wide{grid-column:span 4;}
+    .proj-group:first-of-type .grid .card:nth-child(7){grid-column:span 6;}
+  }
+</style>
 </head>
 <body>
 <header class="site">
@@ -22,6 +48,7 @@
       <a href="index.html">Home</a>
       <a href="projects.html">Projects</a>
       <a href="lab.html">Lab</a>
+      <a href="index.html#contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -31,11 +58,18 @@
     <section class="hero" style="margin-top:0;padding-bottom:8px;">
       <h1>Systems I've built</h1>
       <p class="lede">A working sample of the operational software built for one customer-success
-        team. Every impact figure here is traceable to a measurement; where there isn't a verified
-        number yet, none is shown.</p>
+        team. The flagship systems are the most substantial builds: where an outcome was measured it
+        is shown and traceable to a logged figure, and the rest describe the capability that shipped.
+        A second set runs in daily use but has no published measured figure yet, and none is shown for
+        those.</p>
     </section>
 
     <section style="margin-top:24px;">
+      <div class="proj-group">
+      <h2 class="section-head">Flagship systems</h2>
+      <p class="section-note">The most substantial builds. Where an outcome was measured, the figure
+        is shown and traces to a logged measurement; the others describe the capability that shipped,
+        with no measurement implied.</p>
       <div class="grid">
 
         <div class="card">
@@ -70,11 +104,11 @@
           <h3>Email drafting with voice calibration</h3>
           <p>Drafts outbound customer emails automatically, then learns from a person's edits so the
             drafts converge on their actual writing voice over time.</p>
-          <div class="impact">Measured 45.9% run-time reduction on the drafting pipeline (shadow corpus, live confirm pending)</div>
+          <div class="impact">Measured 45.9% run-time reduction on the drafting pipeline (measured in testing; live confirmation pending)</div>
           <div class="stack">Python, a calibration loop, prompt-based drafting</div>
           <div class="pv-chart-wrap">
-            <svg viewBox="0 0 500 170" width="100%" style="min-width:320px;" role="img" aria-label="Edits per batch across six calibration loops, trending from 4 down to 0">
-              <text x="20" y="16" class="pv-axis-label">Edits per batch of 5 drafts</text>
+            <svg viewBox="0 0 500 170" width="100%" style="min-width:320px;" role="img" aria-label="Editing effort per batch trending steadily down across six calibration loops">
+              <text x="20" y="16" class="pv-axis-label">Editing effort per batch</text>
               <polyline points="20,33.3 112,60 204,86.7 296,86.7 388,113.3 480,140" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
               <circle cx="20" cy="33.3" r="3" fill="var(--accent)"></circle>
               <circle cx="112" cy="60" r="3" fill="var(--accent)"></circle>
@@ -84,8 +118,9 @@
               <circle cx="480" cy="140" r="5" fill="var(--good)"></circle>
               <text x="20" y="158" class="pv-axis-label">Loop 1</text>
               <text x="480" y="158" text-anchor="end" class="pv-axis-label">Loop 6</text>
-              <text x="480" y="128" text-anchor="end" class="pv-data-label" fill="var(--good)">0 edits by Loop 6</text>
+              <text x="480" y="128" text-anchor="end" class="pv-data-label" fill="var(--good)">converged</text>
             </svg>
+            <p style="margin:6px 0 0;font-size:.8rem;opacity:.7;line-height:1.4;">Editing effort per batch fell toward zero across six calibration rounds as the drafts learned the writer's voice.</p>
           </div>
         </div>
 
@@ -112,18 +147,18 @@
           <h3>Data-entry / form-fill automation</h3>
           <p>Automates a repetitive multi-field data-entry task that previously required manual
             copy-paste across systems.</p>
-          <div class="impact">Measured 73% time reduction on the form-fill step (shadow corpus, live confirm pending)</div>
+          <div class="impact">Measured 73% time reduction on the form-fill step (measured in testing; live confirmation pending)</div>
           <div class="stack">Python, browser automation, a dry-run verification harness</div>
           <div class="pv-compare">
             <div class="pv-compare-row">
-              <div class="label">Manual, per record <b>4.5 min</b></div>
+              <div class="label">Manual form fill, per record <b>9.46 s</b></div>
               <div class="pv-bar-track"><div class="pv-bar-fill manual" style="width:100%;"></div></div>
             </div>
             <div class="pv-compare-row">
-              <div class="label">Automated, per record <b>1.2 min</b></div>
+              <div class="label">Automated form fill, per record <b>2.53 s</b></div>
               <div class="pv-bar-track"><div class="pv-bar-fill auto" style="width:27%;"></div></div>
             </div>
-            <span class="pv-reduction-tag">&#9660; 73% faster, shadow corpus</span>
+            <span class="pv-reduction-tag">&#9660; 73% faster, measured in testing</span>
           </div>
         </div>
 
@@ -135,6 +170,15 @@
           <div class="stack">Python, transcript extraction, templated document generation</div>
           <p style="margin-top:12px;"><a href="case-study-video-doc.html">Read the full case study &rarr;</a></p>
         </div>
+
+      </div>
+      </div>
+
+      <div class="proj-group">
+      <h2 class="section-head">Workshop</h2>
+      <p class="section-note">Built and in daily use. These run every day, but none carries a
+        published measured impact figure yet.</p>
+      <div class="grid">
 
         <div class="card">
           <h3>AI customer-service agent</h3>
@@ -159,7 +203,7 @@
           <h3>Personal knowledge wiki</h3>
           <p>A searchable internal wiki that organizes reference material into a browsable,
             linked knowledge base instead of scattered notes and documents.</p>
-          <div class="impact"></div>
+          <div class="impact">Replaced scattered notes and loose documents with one linked, searchable reference base</div>
           <div class="stack">Static site generation, linked markdown pages</div>
         </div>
 
@@ -167,7 +211,7 @@
           <h3>Screen recorder app</h3>
           <p>A lightweight native screen recorder, built as a simpler, faster alternative to
             general-purpose recording tools for quick walkthroughs.</p>
-          <div class="impact"></div>
+          <div class="impact">A lighter, faster alternative to general-purpose recorders for quick walkthroughs</div>
           <div class="stack">Native desktop app</div>
         </div>
 
@@ -175,7 +219,7 @@
           <h3>Skill / automation framework</h3>
           <p>A framework for turning a manual process, once it's been done a few times by hand, into
             a repeatable, validated automated skill.</p>
-          <div class="impact"></div>
+          <div class="impact">Turns a proven manual process into a gated, self-running skill</div>
           <div class="stack">Modular task specs, a validation gate for each new automated skill</div>
           <div class="pv-flow">
             <div class="pv-flow-node">
@@ -196,6 +240,7 @@
         </div>
 
       </div>
+      </div>
     </section>
 
     <section class="case-study" style="text-align:center;margin-top:40px;">
@@ -204,7 +249,7 @@
       <p class="section-lede" style="margin:0 auto 22px;">Walk me through the manual process that eats
         the most of your team's week. In a free 30-minute audit I'll tell you honestly whether software
         can fix it, what I'd build, and what it would cost. No obligation, and every project ships with
-        a measured before/after.</p>
+        a measured before/after. I reply to every audit request within two business days.</p>
       <a class="btn primary" href="index.html#contact">Request the free audit &rarr;</a>
     </section>
   </div>
